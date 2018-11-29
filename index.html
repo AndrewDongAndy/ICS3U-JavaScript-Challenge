@@ -7,17 +7,18 @@
     <link href="style.css" rel="stylesheet" type="text/css"/>
   </head>
   <body>
-    <script src="script.js"></script>
-    <button id="btnNewGame">New game</button>
-    <br>
+    <button id="btnNewGame" onclick="newGame()">New game</button>
+    <br><br><br>
     Guess a character:
-    <input type="text" id="txtGuess" value="" maxlength="1"/>
+    <input type="text" id="txtGuess" maxlength="1"/>
     <br>
     <button id="btnGuess" onclick="guess()">Guess!</button>
-    <p id="pCurState">
-      Current state:
-      <br>
-      _ _ _
-    </p>
+    <br><br>
+    <pre id="preCurState"></pre>
+    <script src="script.js"></script>
+    <!--
+    LOL the script declaration has to be after the tags so
+    that the Javascript doesn't throw an error
+    -->
   </body>
 </html>

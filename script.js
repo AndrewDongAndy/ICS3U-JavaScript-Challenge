@@ -1,34 +1,46 @@
 /*
 Andy Dong
-October 29, 2018
+Mr. Cutten
+ICS 3U
+December 21, 2018
+
 Javascript Programming Challenge
-Due December 21, 2018
 
 A program that allows the user to play a game of Hangman.
 
-TODO add calculations, graphics and animation (as required
+TODO add calculations, graphics, and animation (as required
 by the evaluation criteria)
 */
 
 // ----------STATIC----------
 
+var answers; // master array of all possible answers
 
-function test() {
-    alert("testing");
-}
+// HTML elements for easier reference in code
+var btnGuess = document.getElementById('btnGuess');
+var btnNewGame = document.getElementById('btnNewGame');
+var txtGuess = document.getElementById('txtGuess');
+var preCurState = document.getElementById('preCurState');
 
 // ASCII ids
 const idA = 65;
-const idSpace = 32;
 
 // Returns whether or not the given character is alphabetic.
 function isAlpha(c) {
     return c.toLowerCase() != c.toUpperCase();
 }
 
+// Returns a random integer in the range [a, b].
+function randInt(a, b) {
+    return a + Math.floor(Math.random() * (b - a + 1));
+    // QUESTION: does this count as a calculation?
+}
+
 // ----------END STATIC----------
 
+
 var guesses; // guesses the user has taken
+var correct; // guesses the user has taken which were characters in the answer
 var answer;
 var len;
 
@@ -42,16 +54,24 @@ var curState; // current state of the game
 // characters (case insensitive)
 // ABSOLUTELY CANNOT CONTAIN UNDERSCORES
 function setAnswer(ans) {
-    // error checking for bad string
-    for (let i = 0; i < len; i++) {
-        assert(ans[i] == ' ' || isAlpha(ans[i]), "invalid answer string");
-    }
     answer = ans.toUpperCase();
-    len = ans.length;
+    len = answer.length;
 }
 
-
 // ----------GAME INITIALIZATION----------
+
+// Reads in all the answers from the given data file.
+function initAnswers() {
+    answers = [
+        'Brawl Stars',
+        'Grace Hopper',
+        'unambiguous',
+        'jazz',
+        'legendary'
+    ];
+    // assumption that all file strings are valid: alphabetic and nonempty
+    // TODO: use file input/output?
+}
 
 // Initializes the charGuessed array.
 function initCharGuessed() {
@@ -62,15 +82,14 @@ function initCharGuessed() {
 // Initializes the charLocations array.
 function initCharLocations() {
     charLocations = new Array(26);
-    for (let i = 0; i <  26; i++) {
+    for (let i = 0; i < 26; i++) {
         charLocations[i] = [];
     }
 
     // Store indices containing each letter
     for (let i = 0; i < len; i++) {
-        var chId = answer.charCodeAt(i);
-        if (chId == idSpace) continue; // ignore spaces
-        let v = chId - idA; // position in alphabet
+        if (answer.charAt(i) == ' ') continue; // ignore spaces
+        let v = answer.charCodeAt(i) - idA; // position in alphabet
         charLocations[v].push(i);
     }
 }
@@ -84,32 +103,25 @@ function initCurState() {
     }
 }
 
-// Initializes a new game of Hangman.
-function initGame(ans) {
+// Called when user clicks the 'New game' button
+function newGame() {
     guesses = 0;
-    setAnswer(ans);
+    correct = 0;
+    initAnswers();
+    setAnswer(answers[randInt(0, answers.length - 1)]);
     initCharGuessed();
     initCharLocations();
     initCurState();
+    updateState();
+    btnGuess.disabled = false;
+    txtGuess.focus();
 }
 
 // ----------END GAME INITIALIZATION----------
 
 
-// Called when user clicks the "New game" button
-function newGame() {
-    initGame("Grace Hopper");
-    console.log(`You got it! You used a total of ${guesses} guesses.`);
-}
 
-// Function that returns current state of game
-function getCurState() {
-    var s = '';
-    for (let i = 0; i < len; i++) {
-        s += curState[i] + ' ';
-    }
-    return s;
-}
+// ----------USER INTERACTION----------
 
 // Returns whether user has won the game; the user wins
 // if and only if the current state does not contain any
@@ -121,14 +133,44 @@ function hasWon() {
     return true;
 }
 
+// Processes guessing a character; changes the values
+// of the variables and handles bad input.
+function guessChar(c) {
+    if (!isGuessValid(c)) return;
+    c = c.toUpperCase();
+    let v = c.charCodeAt(0) - idA;
+    guesses++;
+    charGuessed[v] = true;
+    // show this character where it appears in the answer
+    charLocations[v].forEach(function(i) {
+        curState[i] = c;
+    });
+    if (charLocations[v].length > 0) {
+        correct++;
+    }
+}
+
+// Returns current state of game (for display only)
+function getCurState() {
+    var s = '';
+    for (let i = 0; i < len; i++) {
+        if (curState[i] == ' ') s += '  '; // exaggerate spaces in word
+        else s += curState[i];
+        s += ' ';
+    }
+    return s;
+}
+
+// Returns whether the given string is a valid guess
+// and handles invalid guesses accordingly.
 function isGuessValid(c) {
     // check if valid
     if (c.length != 1 || !isAlpha(c)) {
-        alert("Sorry, invalid guess! Please enter an alphabetic character.");
+        alert('Sorry, invalid guess! Please enter an alphabetic character.');
         return false;
     }
-    // check if this character has been guessed before
     c = c.toUpperCase();
+    // check if this character has been guessed before
     let v = c.charCodeAt(0) - idA;
     if (charGuessed[v]) {
         alert(`You have already guessed ${c}; please try again.`);
@@ -137,33 +179,26 @@ function isGuessValid(c) {
     return true;
 }
 
+// Updates the state of the game displayed to the user.
+// This includes letters/underscores, guesses used,
+// incorrect guesses, and whether user has won.
+function updateState() {
+    let incorrect = guesses - correct;
+    let s = `Current state:<br>${getCurState()}<br>`;
+    s += `You have used ${guesses} ` + (guesses == 1 ? 'guess' : 'guesses') + ' so far.<br>';
+    s += `You have guessed incorrectly ${incorrect} ` + (incorrect == 1 ? 'time' : 'times') + '.';
+    if (hasWon()) {
+        s += '<br>Congratulations! You won!';
+        btnGuess.disabled = true;
+    }
+    preCurState.innerHTML = s;
+}
+
 // Called by btnGuess to guess a character
 function guess() {
-    let c = document.getElementById("txtGuess").value;
+    let c = txtGuess.value;
     guessChar(c);
-    let s = `Current state:\n${getCurState()}\nYou have used ${guesses} guesses so far.`;
-    if (hasWon()) {
-        s += "\nCongratulations! You won!";
-    }
-    document.getElementById("pCurState").textContent = s;
+    updateState();
+    txtGuess.value = '';
+    txtGuess.focus();
 }
-
-// Processes guessing a character; changes the values
-// of the variables and handles bad input.
-function guessChar(c) {
-    if (!isGuessValid(c)) return;
-
-    c = c.toUpperCase();
-    let v = c.charCodeAt(0) - idA;
-    guesses++;
-    charGuessed[v] = true;
-
-    // show this character where it appears in the answer
-    charLocations[v].forEach(function(i) {
-        curState[i] = c;
-    });
-}
-
-var btnNewGame = document.getElementById("btnNewGame");
-document.getElementById("btnNewGame").addEventListener("click", test);
-document.getElementById("btnNewGame").innerHTML = "test change";
