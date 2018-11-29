@@ -24,9 +24,6 @@ var btnNewGame = document.getElementById('btnNewGame');
 var txtGuess = document.getElementById('txtGuess');
 var preCurState = document.getElementById('preCurState');
 
-// when page loads, cannot guess a character
-btnGuess.disabled = true;
-
 // ASCII id for the character 'A'
 const idA = 65;
 
@@ -39,6 +36,7 @@ function isAlpha(c) {
 function randInt(a, b) {
     return a + Math.floor(Math.random() * (b - a + 1));
     // QUESTION: does this count as a calculation?
+    // ANSWER: yes
 }
 
 // ----------END STATIC----------
@@ -83,7 +81,8 @@ function initAnswers() {
         'assassin',
         'Fahrenheit',
         'hydrogen',
-        'phenolphthalein'
+        'phenolphthalein',
+        'combustion'
     ];
     // assumption that all file strings are valid: alphabetic and nonempty
     // TODO: use file input/output?
