@@ -87,7 +87,9 @@ function initAnswers() {
         'request',
         'trigger',
         'assumption',
-        'pencil'
+        'pencil',
+        'browse',
+        'censorship'
     ];
     // assumption that all file strings are valid: alphabetic and nonempty
     // TODO: use file input/output?
