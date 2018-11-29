@@ -97,6 +97,9 @@ function initAnswers() {
         'browse',
         'censorship'
     ];
+    for (let i = 0; i < answers.length; i++) {
+        answers[i] = normalized(answers[i]);
+    }
     // assumption that all file strings are valid: alphabetic and nonempty
     // TODO: use file input/output?
     // http://qnimate.com/javascript-create-file-object-from-url/
