@@ -24,6 +24,9 @@ var btnNewGame = document.getElementById('btnNewGame');
 var txtGuess = document.getElementById('txtGuess');
 var preCurState = document.getElementById('preCurState');
 
+// when page loads, cannot guess a character
+btnGuess.disabled = true;
+
 // ASCII id for the character 'A'
 const idA = 65;
 
@@ -188,10 +191,10 @@ function isGuessValid(c) {
 function updateState() {
     let incorrect = guesses - correct;
     let s = `Current state:<br>${getCurState()}<br>`;
-    s += `You have used ${guesses} ` +
-        (guesses == 1 ? 'guess' : 'guesses') + ' so far.<br>';
-    s += `You have guessed incorrectly ${incorrect} ` +
-        (incorrect == 1 ? 'time' : 'times') + '.';
+    s += `You have used ${guesses} `
+        + (guesses == 1 ? 'guess' : 'guesses') + ' so far.<br>';
+    s += `You have guessed incorrectly ${incorrect} `
+        + (incorrect == 1 ? 'time' : 'times') + '.';
     if (hasWon()) {
         s += '<br>Congratulations! You won!';
         btnGuess.disabled = true;
