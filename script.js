@@ -22,7 +22,7 @@ var btnNewGame = document.getElementById('btnNewGame');
 var txtGuess = document.getElementById('txtGuess');
 var preCurState = document.getElementById('preCurState');
 
-// ASCII ids
+// ASCII id for the character 'A'
 const idA = 65;
 
 // Returns whether or not the given character is alphabetic.
