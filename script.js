@@ -10,6 +10,8 @@ A program that allows the user to play a game of Hangman.
 
 TODO add calculations, graphics, and animation (as required
 by the evaluation criteria)
+
+QUESTION: does generating a random number count as a calculation?
 */
 
 // ----------STATIC----------
@@ -71,6 +73,7 @@ function initAnswers() {
     ];
     // assumption that all file strings are valid: alphabetic and nonempty
     // TODO: use file input/output?
+    // http://qnimate.com/javascript-create-file-object-from-url/
 }
 
 // Initializes the charGuessed array.
@@ -185,8 +188,10 @@ function isGuessValid(c) {
 function updateState() {
     let incorrect = guesses - correct;
     let s = `Current state:<br>${getCurState()}<br>`;
-    s += `You have used ${guesses} ` + (guesses == 1 ? 'guess' : 'guesses') + ' so far.<br>';
-    s += `You have guessed incorrectly ${incorrect} ` + (incorrect == 1 ? 'time' : 'times') + '.';
+    s += `You have used ${guesses} ` +
+        (guesses == 1 ? 'guess' : 'guesses') + ' so far.<br>';
+    s += `You have guessed incorrectly ${incorrect} ` +
+        (incorrect == 1 ? 'time' : 'times') + '.';
     if (hasWon()) {
         s += '<br>Congratulations! You won!';
         btnGuess.disabled = true;
