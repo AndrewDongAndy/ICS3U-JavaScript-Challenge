@@ -16,12 +16,16 @@ QUESTION: does generating a random number count as a calculation?
 
 // ----------STATIC----------
 
+
+const MAX_ANS_LEN = 30;
+
 var answers; // master array of all possible answers
 
 // HTML elements for easier reference in code
 var btnGuess = document.getElementById('btnGuess');
 var btnNewGame = document.getElementById('btnNewGame');
 var txtGuess = document.getElementById('txtGuess');
+var txtCustomAns = document.getElementById('txtCustomAns');
 var preCurState = document.getElementById('preCurState');
 
 // ASCII id for the character 'A'
@@ -57,7 +61,9 @@ var curState; // current state of the game
 // characters (case insensitive)
 // ABSOLUTELY CANNOT CONTAIN UNDERSCORES
 function setAnswer(ans) {
-    answer = ans.toUpperCase();
+    // assuming ans is normalized
+    console.assert(isValidAnswer(ans), 'invalid answer!!!');
+    answer = ans;
     len = answer.length;
 }
 
@@ -126,12 +132,51 @@ function initCurState() {
     }
 }
 
+// Returns whether a string is a valid answer string:
+// each character must be alphabetic or a space.
+function isValidAnswer(s) {
+    if (s.length == 0 || s.length > MAX_ANS_LEN) return false;
+    for (let i = 0; i < s.length; i++) {
+        let c = s.charAt(i);
+        if (!isAlpha(c) && c != ' ') return false;
+    }
+    return true;
+}
+
+// Returns normalized string (all uppercase, single spaces
+// between words)
+function normalized(s) {
+    s = s.trim();
+    let res = '';
+    for (let i = 0; i < s.length; i++) {
+        // below: works with short-circuiting of || operator
+        if (s.charAt(i) != ' ' || res.charAt(res.length - 1) != ' ')
+            res += s.charAt(i);
+    }
+    return res.toUpperCase();
+}
+
+// Loads the answer for a game.
+function loadAnswer() {
+    let s = txtCustomAns.value;
+    s = normalized(s);
+    if (!isValidAnswer(s)) {
+        setAnswer(answers[randInt(0, answers.length - 1)]);
+        if (s.length != 0) { // user tried to use custom word
+            alert('Invalid custom word: random word chosen from word bank.');
+        }
+    }
+    else {
+        setAnswer(s);
+    }
+}
+
 // Called when user clicks the 'New game' button
 function newGame() {
     guesses = 0;
     correct = 0;
     initAnswers();
-    setAnswer(answers[randInt(0, answers.length - 1)]);
+    loadAnswer();
     initCharGuessed();
     initCharLocations();
     initCurState();
