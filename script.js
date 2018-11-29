@@ -82,7 +82,12 @@ function initAnswers() {
         'Fahrenheit',
         'hydrogen',
         'phenolphthalein',
-        'combustion'
+        'combustion',
+        'ultimate',
+        'request',
+        'trigger',
+        'assumption',
+        'pencil'
     ];
     // assumption that all file strings are valid: alphabetic and nonempty
     // TODO: use file input/output?
