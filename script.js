@@ -72,7 +72,18 @@ function initAnswers() {
         'Grace Hopper',
         'unambiguous',
         'jazz',
-        'legendary'
+        'legendary',
+        'conservatory',
+        'galaxy',
+        'avid',
+        'caterpillar',
+        'laptop',
+        'programming',
+        'xylophone',
+        'assassin',
+        'Fahrenheit',
+        'hydrogen',
+        'phenolphthalein'
     ];
     // assumption that all file strings are valid: alphabetic and nonempty
     // TODO: use file input/output?
