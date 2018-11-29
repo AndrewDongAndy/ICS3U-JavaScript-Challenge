@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Hangman!</title>
+    <link href="style.css" rel="stylesheet" type="text/css"/>
+  </head>
+  <body>
+    <script src="script.js"></script>
+    <button id="btnNewGame">New game</button>
+    <br>
+    Guess a character:
+    <input type="text" id="txtGuess" value="" maxlength="1"/>
+    <br>
+    <button id="btnGuess" onclick="guess()">Guess!</button>
+    <p id="pCurState">
+      Current state:
+      <br>
+      _ _ _
+    </p>
+  </body>
+</html>
