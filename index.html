@@ -7,8 +7,8 @@
     <link href="style.css" rel="stylesheet" type="text/css"/>
   </head>
   <body>
-    Custom answer: <input type="text" id="txtCustomAns"/>
-    <br><br>
+    Custom answer (leave blank for random): <input type="text" id="txtCustomAns"/>
+    <br>
     <button id="btnNewGame" onclick="newGame()">New game</button>
     <br><br><br>
     Guess a letter: <input type="text" id="txtGuess" maxlength="1"/>
@@ -17,6 +17,7 @@
     <br><br>
     <!-- pre: preformatted text to avoid space collapsing -->
     <pre id="preCurState"></pre>
+    
     <script src="script.js"></script>
     <!--
     script declaration has to be after the tags so
