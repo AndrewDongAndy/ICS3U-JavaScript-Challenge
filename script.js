@@ -182,6 +182,7 @@ function newGame() {
     initCurState();
     updateState();
     btnGuess.disabled = false;
+    txtCustomAns.value = '';
     txtGuess.focus();
 }
 
