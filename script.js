@@ -197,7 +197,7 @@ function initCurState() {
 
 function showGameElements() {
     divGuessing.hidden = false;
-    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+    ctx.clearRect(0, 0, canvHangman.width, canvHangman.height);
     canvHangman.hidden = false;
     updateHook();
 }
