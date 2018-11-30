@@ -21,16 +21,6 @@ const MAX_ANS_LEN = 30; // longest answer allowed
 
 var answers; // master array of all possible answers
 
-// HTML elements for easier reference in code
-var btnGuess = document.getElementById('btn-guess');
-var btnNewGame = document.getElementById('btn-new-game');
-var canvHangman = document.getElementById('canv-hangman'); // not implemented
-var ctx = canvHangman.getContext('2d');
-var divGuessing = document.getElementById('div-guessing');
-var divStartGame = document.getElementById('div-start-game');
-var preCurState = document.getElementById('pre-cur-state');
-var txtGuess = document.getElementById('txt-guess');
-
 // ASCII id for the character 'A'
 const ID_A = 65;
 
@@ -106,7 +96,7 @@ function normalized(s) {
 
 // Returns current state of game (for display only)
 function getCurState() {
-    var s = '';
+    let s = '';
     for (let i = 0; i < len; i++) {
         if (curState[i] == ' ') s += '  '; // exaggerate spaces in word
         else s += curState[i];
