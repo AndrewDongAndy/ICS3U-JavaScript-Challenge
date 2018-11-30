@@ -15,7 +15,7 @@ body {
 canvas {
     /* TODO: allow custom answers such as:
     A B C D E F G H I J K L M N OP
-    to not overlap the canvas, e.g. by changing its position*/
+    to not overlap the canvas, e.g. by changing its position */
     position: relative;
     left: 350px;
     bottom: 180px;
