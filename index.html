@@ -28,11 +28,8 @@
     <!-- pre: preformatted text to avoid space collapsing -->
     <pre id="pre-cur-state"></pre>
     <canvas id="canv-hangman" width="300" height="200" hidden/>
-    <!--
-    script declaration has to be after the tags so
-    that the Javascript doesn't throw an error when
-    setting variables as elements
-    -->
+    <!-- script elements; order is significant -->
+    <script src="html_elements.js"></script>
     <script src="script.js"></script>
     <script src="drawing.js"></script>
   </body>
