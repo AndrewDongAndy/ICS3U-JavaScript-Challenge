@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
@@ -7,22 +7,28 @@
     <link href="style.css" rel="stylesheet" type="text/css"/>
   </head>
   <body>
-    Custom answer (leave blank for random): <input type="text" id="txtCustomAns"/>
-    <br>
-    <button id="btnNewGame" onclick="newGame()">New game</button>
-    <br><br><br>
-    Guess a letter: <input type="text" id="txtGuess" maxlength="1"/>
-    <br>
-    <button id="btnGuess" onclick="guess()" disabled>Guess!</button>
+    <!-- Elements used for starting a new game -->
+    <div id="divStartGame">
+      <button id="btnNewGame" onclick="newGame()">New game</button>
+      <button id="btnCustomGame" onclick="customGame()">Custom game</button>
+    </div>
     <br><br>
+
+    <!-- Elements used for guessing a letter -->
+    <div id="divGuessing" hidden>
+      Guess a letter:
+      <input type="text" id="txtGuess" maxlength="1"
+        onkeypress="txtGuessKeyPressed(event)"/>
+      <button id="btnGuess" onclick="guess()">Guess!</button>
+    </div>
     <!-- pre: preformatted text to avoid space collapsing -->
     <pre id="preCurState"></pre>
-    
-    <script src="script.js"></script>
+    <canvas id="canvasHangman" width="200" height="100"/>
     <!--
     script declaration has to be after the tags so
     that the Javascript doesn't throw an error when
     setting variables as elements
     -->
+    <script src="script.js"></script>
   </body>
 </html>
