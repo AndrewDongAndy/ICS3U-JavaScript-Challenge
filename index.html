@@ -11,8 +11,8 @@
     <h2>JavaScript Challenge Assignment</h2>
     <!-- Elements used for starting a new game -->
     <div id="div-start-game">
-      <button id="btn-new-game" onclick="newGame()">New game</button>
-      <button id="btn-custom-game" onclick="customGame()">Custom game</button>
+      <button class="btn-start-game" id="btn-new-game" onclick="newGame()">New game</button>
+      <button class="btn-start-game" id="btn-custom-game" onclick="customGame()">Custom game</button>
     </div>
     <br><br>
     <!-- Elements used for guessing a letter -->
@@ -24,7 +24,7 @@
     </div>
     <!-- pre: preformatted text to avoid space collapsing -->
     <pre id="pre-cur-state"></pre>
-    <canvas id="canvas-hangman" width="200" height="100"/>
+    <canvas id="canv-hangman" width="300" height="200" hidden/>
     <!--
     script declaration has to be after the tags so
     that the Javascript doesn't throw an error when

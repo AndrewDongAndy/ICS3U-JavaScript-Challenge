@@ -24,7 +24,8 @@ var answers; // master array of all possible answers
 // HTML elements for easier reference in code
 var btnGuess = document.getElementById('btn-guess');
 var btnNewGame = document.getElementById('btn-new-game');
-var canvasHangman = document.getElementById('canvas-hangman'); // not implemented
+var canvHangman = document.getElementById('canv-hangman'); // not implemented
+var ctx = canvHangman.getContext('2d');
 var divGuessing = document.getElementById('div-guessing');
 var divStartGame = document.getElementById('div-start-game');
 var preCurState = document.getElementById('pre-cur-state');
@@ -157,12 +158,36 @@ function initAnswers() {
         'browse',
         'censorship'
     ];
+    // normalize all answers
     for (let i = 0; i < answers.length; i++) {
         answers[i] = normalized(answers[i]);
     }
     // assumption that all file strings are valid: alphabetic and nonempty
     // TODO: use file input/output?
     // http://qnimate.com/javascript-create-file-object-from-url/
+}
+
+// Equivalent to the processing.js line().
+function line(x1, y1, x2, y2) {
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.stroke();
+}
+
+// Equivalent to the processing.js ellipse().
+function ellipse(x, y, w, h) {
+    ctx.ellipse(x, y, w, h, 0, 0, 2 * Math.PI);
+}
+
+// Initializes the drawing in the canvas.
+function initDrawing() {
+    let w = canvHangman.width, h = canvHangman.height;
+    ctx.clearRect(0, 0, w, h);
+    line(w / 10, h - 10, w / 2, h - 10);
+    line((w / 10 + w / 2) / 2, 10, (w / 10 + w / 2) / 2, h - 10);
+    line((w / 10 + w / 2) / 2, 10, 2 / 3 * w, 10);
+    line(2 / 3 * w, 10, 2 / 3 * w, 40);
 }
 
 // Initializes the charGuessed array.
@@ -199,6 +224,7 @@ function newGame() {
     incorrect = 0;
     setRandomAnswer();
     divGuessing.hidden = false;
+    canvHangman.hidden = false;
     txtGuess.focus();
 }
 
@@ -281,7 +307,7 @@ function updateState() {
 function drawBodyPart() {
     // TODO: get HTML canvas working
     if (incorrect == 1) {
-
+        ellipse()
     }
 }
 
@@ -308,3 +334,4 @@ function guess() {
 
 
 initAnswers();
+initDrawing();
