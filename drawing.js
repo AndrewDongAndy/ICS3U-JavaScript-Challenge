@@ -1,7 +1,8 @@
 /*
-A separate file for drawing (and potentially animation).
+A separate file for drawing and animation.
 */
 
+const PERSON_STAGES = 6;
 const WIDTH = canvHangman.width;
 const HEIGHT = canvHangman.height;
 
@@ -32,65 +33,111 @@ let baseLeftX = WIDTH / 10;
 let baseRightX = WIDTH / 2;
 let topY = 10;
 let baseY = HEIGHT - 10;
-let personX = 3 / 5 * WIDTH;
 let hookLength = 25;
+
+// derived parameters
+let baseMidX = (baseLeftX + baseRightX) / 2;
+let hookTipY = topY + hookLength;
+
+// person parameters
+let personX = 3 / 5 * WIDTH;
 let headRadius = 20;
 let bodyLength = 70;
 let wingSpan = 60;
 let eyeRadius = 3;
 
-// derived parameters
-let baseMidX = (baseLeftX + baseRightX) / 2;
-let hookTipY = topY + hookLength;
-let headCentreY = hookTipY + headRadius;
-let bodyTopY = headCentreY + headRadius;
-let bodyBottomY = bodyTopY + bodyLength;
-let armsY = 2 / 3 * bodyTopY + 1 / 3 * bodyBottomY;
-let leftArmX = personX - wingSpan / 2;
-let rightArmX = personX + wingSpan / 2;
-let feetY = bodyBottomY + 2 / 5 * bodyLength;
-let eyeDistance = headRadius / 2;
-let leftEyeX = personX - eyeDistance / 2;
-let rightEyeX = personX + eyeDistance / 2;
-let eyesY = headCentreY - headRadius / 5;
-let mouthY = headCentreY + headRadius / 3;
+// animation parameters
+let winSpeed = 3;
+let loseSpeed = 1;
 
 function updateHook(incorrect) {
-    switch (incorrect) {
-        case 0:
-            ctx.clearRect(0, 0, canvHangman.width, canvHangman.height);
-            // draw empty hook
-            line(baseLeftX, baseY, baseRightX, baseY); // base
-            line(baseMidX, topY, baseMidX, baseY); // stand
-            line(baseMidX, topY, personX, topY); // top
-            line(personX, topY, personX, hookTipY); // hook down
-            break;
-        case 1:
-            // draw head
-            ellipse(personX, headCentreY, headRadius, headRadius); // head
-            break;
-        case 2:
-            // draw body
-            line(personX, bodyTopY, personX, bodyBottomY);
-            break;
-        case 3:
-            // both arms (one straight line)
-            line(leftArmX, armsY, rightArmX, armsY);
-            break;
-        case 4:
-            // both legs
-            line(leftArmX, feetY, personX, bodyBottomY);
-            line(rightArmX, feetY, personX, bodyBottomY);
-            break;
+    if (incorrect == 0) resetHook();
+    else drawPerson(personX, hookTipY, incorrect);
+}
+
+function clearCanvas() {
+    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+}
+
+// Draws an empty hook in the canv-hangman canvas.
+function resetHook() {
+    clearCanvas();
+    line(baseLeftX, baseY, baseRightX, baseY); // base
+    line(baseMidX, topY, baseMidX, baseY); // stand
+    line(baseMidX, topY, personX, topY); // top
+    line(personX, topY, personX, hookTipY); // hook down
+}
+
+// Given the location of the top of the head, draw a person.
+function drawPerson(x, y, stage) {
+    let headCentreY = y + headRadius;
+    let bodyTopY = headCentreY + headRadius;
+    let bodyBottomY = bodyTopY + bodyLength;
+    let armsY = 2 / 3 * bodyTopY + 1 / 3 * bodyBottomY;
+    let leftArmX = x - wingSpan / 2;
+    let rightArmX = x + wingSpan / 2;
+    let feetY = bodyBottomY + 2 / 5 * bodyLength;
+    let eyeDistance = headRadius / 2;
+    let leftEyeX = x - eyeDistance / 2;
+    let rightEyeX = x + eyeDistance / 2;
+    let eyesY = headCentreY - headRadius / 5;
+    let mouthY = headCentreY + headRadius / 3;
+
+    switch (stage) {
+        case 6:
+            // mouth (surprised!)
+            ellipse(x, mouthY, eyeDistance, eyeRadius);
         case 5:
             // eyes
             ellipse(leftEyeX, eyesY, eyeRadius, eyeRadius);
             ellipse(rightEyeX, eyesY, eyeRadius, eyeRadius);
-            break;
-        case 6:
-            // mouth (surprised!)
-            ellipse(personX, mouthY, eyeDistance, eyeRadius);
-        default:
-
+        case 4:
+            // both legs
+            line(leftArmX, feetY, x, bodyBottomY);
+            line(rightArmX, feetY, x, bodyBottomY);
+        case 3:
+            // both arms (one straight line)
+            line(leftArmX, armsY, rightArmX, armsY);
+        case 2:
+            // body
+            line(x, bodyTopY, x, bodyBottomY);
+        case 1:
+            // head
+            ellipse(x, headCentreY, headRadius, headRadius); // head
     }
+}
+
+const LEFT_BOUND = 20;
+const RIGHT_BOUND = WIDTH - LEFT_BOUND;
+var curX;
+var animationY;
+var delta;
+var cancelId = null;
+
+function startWinAnimation() {
+    curX = LEFT_BOUND;
+    animationY = 30;
+    delta = winSpeed;
+    animateWin();
+}
+
+function endWinAnimation() {
+    if (cancelId == null) return;
+    cancelAnimationFrame(cancelId);
+    cancelId = null;
+}
+
+function animateWin() {
+    clearCanvas();
+    drawPerson(curX, animationY, PERSON_STAGES);
+    if (curX > RIGHT_BOUND || curX < LEFT_BOUND) delta = -delta;
+    curX += delta;
+    cancelId = requestAnimationFrame(animateWin);
+}
+
+function startLoseAnimation() {
+    curX = LEFT_BOUND;
+    animationY = HEIGHT - 5 / 2 * headRadius;
+    delta = loseSpeed;
+    animateWin();
 }

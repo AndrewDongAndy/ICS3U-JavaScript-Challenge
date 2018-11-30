@@ -18,6 +18,7 @@ ANSWER: yes
 // ----------STATIC----------
 
 const MAX_ANS_LEN = 30; // longest answer allowed
+const MAX_INCORRECT = 6; // most incorrect guesses allowed
 
 var answers; // master array of all possible answers
 
@@ -56,10 +57,26 @@ function setAnswer(ans) {
     console.assert(isValidAnswer(ans), 'invalid answer!!!');
     answer = ans;
     len = answer.length;
-    initCharGuessed();
-    initCharLocations();
-    initCurState();
-    updateState();
+    // initailizing data required for game
+    // if char was guessed
+    charGuessed = new Array(26);
+    charGuessed.fill(false, 0, 26);
+    // locations of each character
+    charLocations = new Array(26);
+    for (let i = 0; i < 26; i++) {
+        charLocations[i] = [];
+    }
+    for (let i = 0; i < len; i++) {
+        if (answer.charAt(i) == ' ') continue; // ignore spaces
+        let v = answer.charCodeAt(i) - ID_A; // position in alphabet
+        charLocations[v].push(i);
+    }
+    // the game state
+    curState = new Array(len);
+    // for each character, if it is not a space, show a '_'
+    for (let i = 0; i < len; i++) {
+        curState[i] = (answer[i] == ' ' ? ' ' : '_');
+    }
 }
 
 // Sets a random answer for a new regular game.
@@ -156,39 +173,16 @@ function initAnswers() {
     // TODO: use file input/output?
     // http://qnimate.com/javascript-create-file-object-from-url/
 }
+initAnswers(); // call when page loads
 
-// Initializes the charGuessed array.
-function initCharGuessed() {
-    charGuessed = new Array(26);
-    charGuessed.fill(false, 0, 26);
-}
-
-// Initializes the charLocations array.
-function initCharLocations() {
-    charLocations = new Array(26);
-    for (let i = 0; i < 26; i++) {
-        charLocations[i] = [];
-    }
-    for (let i = 0; i < len; i++) {
-        if (answer.charAt(i) == ' ') continue; // ignore spaces
-        let v = answer.charCodeAt(i) - ID_A; // position in alphabet
-        charLocations[v].push(i);
-    }
-}
-
-// Initializes the curState array.
-function initCurState() {
-    curState = new Array(len);
-    // for each character, if it is not a space, show a '_'
-    for (let i = 0; i < len; i++) {
-        curState[i] = (answer[i] == ' ' ? ' ' : '_');
-    }
-}
-
+// Shows the game elements in preparation for the start
+// of a new round
 function showGameElements() {
+    endWinAnimation();
+    updateState();
+    updateHook(incorrect);
     divGuessing.hidden = false;
     canvHangman.hidden = false;
-    updateHook(incorrect);
 }
 
 // Called when user clicks btnNewGame
@@ -204,7 +198,7 @@ function newGame() {
 function customGame() {
     guesses = 0;
     incorrect = 0;
-    let ans = prompt(`Enter an answer string; alphabetic characters only, `
+    let ans = prompt('Enter an answer string; alphabetic characters only, '
         + `maximum ${MAX_ANS_LEN} characters.`);
     if (ans == null) return; // user cancelled the prompt
     ans = normalized(ans);
@@ -221,26 +215,7 @@ function customGame() {
 // ----------END GAME INITIALIZATION----------
 
 
-
 // ----------USER INTERACTION----------
-
-// Processes guessing a character; changes the values
-// of the variables and handles bad input.
-function guessChar(c) {
-    if (!isGuessValid(c)) return;
-    c = c.toUpperCase();
-    let v = c.charCodeAt(0) - ID_A;
-    guesses++;
-    charGuessed[v] = true;
-    // show this character where it appears in the answer
-    charLocations[v].forEach(function(i) {
-        curState[i] = c;
-    });
-    if (charLocations[v].length == 0) {
-        incorrect++;
-        updateHook(incorrect);
-    }
-}
 
 // Returns whether the given string is a valid guess
 // and handles invalid guesses accordingly.
@@ -264,35 +239,59 @@ function isGuessValid(c) {
 // This includes letters/underscores, guesses used,
 // incorrect guesses, and whether user has won.
 function updateState() {
-    let s = `${getCurState()}<br><br>`;
-    s += `Incorrect guesses: ${incorrect}<br>`;
-    s += `Total guesses: ${guesses}`;
-    if (hasWon()) {
-        s += '<br>Congratulations! You won!';
-        divGuessing.hidden = true;
+    preCurState.innerHTML = `${getCurState()}<br><br>`;
+    preCurState.innerHTML += `Incorrect guesses: ${incorrect}<br>`;
+    preCurState.innerHTML += `Total guesses: ${guesses}<br>`;
+    if (guesses != 0) {
+        preCurState.innerHTML += 'Letters guessed: ';
+        for (let i = 0; i < 26; i++) {
+            if (charGuessed[i]) {
+                preCurState.innerHTML += String.fromCharCode(ID_A + i) + ' ';
+            }
+        }
     }
-    preCurState.innerHTML = s;
+    // handle winning
+    if (hasWon()) {
+        preCurState.innerHTML += '<br>Congratulations! You won!';
+        divGuessing.hidden = true;
+        startWinAnimation();
+    }
+    else if (incorrect == MAX_INCORRECT) {
+        preCurState.innerHTML += '<br>You lost!<br>';
+        preCurState.innerHTML += `The answer was ${answer}.`;
+        divGuessing.hidden = true;
+        startLoseAnimation();
+    }
 }
 
 // ----------EVENT HANDLING----------
 
 // Checks for when user presses enter to guess a character
 function txtGuessKeyPressed(event) {
-    if (event.charCode == 13) { // enter key
-        guess();
+    if (event.charCode == 13) { // code of enter key
+        userGuessed();
     }
 }
 
 // Called by btnGuess to guess a character
-function guess() {
+function userGuessed() {
     let c = txtGuess.value;
-    guessChar(c);
+    if (!isGuessValid(c)) return;
+    c = c.toUpperCase();
+    let v = c.charCodeAt(0) - ID_A;
+    charGuessed[v] = true;
+    // show this character where it appears in the answer
+    charLocations[v].forEach(function(i) {
+        curState[i] = c;
+    });
+    guesses++;
+    if (charLocations[v].length == 0) {
+        incorrect++;
+        updateHook(incorrect);
+    }
     updateState();
     txtGuess.value = '';
     txtGuess.focus();
 }
 
 // ----------END EVENT HANDLING----------
-
-
-initAnswers();
