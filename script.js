@@ -314,7 +314,7 @@ function updateHook() {
     let baseRightX = WIDTH / 2;
     let topY = 10;
     let baseY = HEIGHT - 10;
-    let personX = 2 / 3 * WIDTH;
+    let personX = 3 / 5 * WIDTH;
     let hookLength = 30;
     let headRadius = 20;
     let bodyLength = 70;
