@@ -8,23 +8,23 @@
   </head>
   <body>
     <h1>ICS 3U Hangman</h1>
+    <h2>JavaScript Challenge Assignment</h2>
     <!-- Elements used for starting a new game -->
-    <div id="divStartGame">
-      <button id="btnNewGame" onclick="newGame()">New game</button>
-      <button id="btnCustomGame" onclick="customGame()">Custom game</button>
+    <div id="div-start-game">
+      <button id="btn-new-game" onclick="newGame()">New game</button>
+      <button id="btn-custom-game" onclick="customGame()">Custom game</button>
     </div>
     <br><br>
-
     <!-- Elements used for guessing a letter -->
-    <div id="divGuessing" hidden>
+    <div id="div-guessing" hidden>
       Guess a letter:
-      <input type="text" id="txtGuess" maxlength="1"
+      <input type="text" id="txt-guess" maxlength="1"
         onkeypress="txtGuessKeyPressed(event)"/>
-      <button id="btnGuess" onclick="guess()">Guess!</button>
+      <button id="btn-guess" onclick="guess()">Guess!</button>
     </div>
     <!-- pre: preformatted text to avoid space collapsing -->
-    <pre id="preCurState"></pre>
-    <canvas id="canvasHangman" width="200" height="100"/>
+    <pre id="pre-cur-state"></pre>
+    <canvas id="canvas-hangman" width="200" height="100"/>
     <!--
     script declaration has to be after the tags so
     that the Javascript doesn't throw an error when

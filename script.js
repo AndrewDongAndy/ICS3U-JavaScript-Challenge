@@ -22,13 +22,13 @@ const MAX_ANS_LEN = 30; // longest answer allowed
 var answers; // master array of all possible answers
 
 // HTML elements for easier reference in code
-var btnGuess = document.getElementById('btnGuess');
-var btnNewGame = document.getElementById('btnNewGame');
-var canvasHangman = document.getElementById('canvasHangman'); // not implemented
-var divGuessing = document.getElementById('divGuessing');
-var divStartGame = document.getElementById('divStartGame');
-var preCurState = document.getElementById('preCurState');
-var txtGuess = document.getElementById('txtGuess');
+var btnGuess = document.getElementById('btn-guess');
+var btnNewGame = document.getElementById('btn-new-game');
+var canvasHangman = document.getElementById('canvas-hangman'); // not implemented
+var divGuessing = document.getElementById('div-guessing');
+var divStartGame = document.getElementById('div-start-game');
+var preCurState = document.getElementById('pre-cur-state');
+var txtGuess = document.getElementById('txt-guess');
 
 // ASCII id for the character 'A'
 const ID_A = 65;
@@ -266,11 +266,9 @@ function isGuessValid(c) {
 // This includes letters/underscores, guesses used,
 // incorrect guesses, and whether user has won.
 function updateState() {
-    let s = `Current state:<br>${getCurState()}<br>`;
-    s += `You have used ${guesses} `
-        + (guesses == 1 ? 'guess' : 'guesses') + ' so far.<br>';
-    s += `You have guessed incorrectly ${incorrect} `
-        + (incorrect == 1 ? 'time' : 'times') + '.';
+    let s = `${getCurState()}<br><br>`;
+    s += `Incorrect guesses: ${incorrect}<br>`;
+    s += `Total guesses: ${guesses}`;
     if (hasWon()) {
         s += '<br>Congratulations! You won!';
         divGuessing.hidden = true;
