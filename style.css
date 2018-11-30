@@ -12,14 +12,6 @@ body {
     font-family: Helvetica;
     font-size: 16px;
 }
-canvas {
-    /* TODO: allow custom answers such as:
-    A B C D E F G H I J K L M N OP
-    to not overlap the canvas, e.g. by changing its position */
-    position: relative;
-    left: 350px;
-    bottom: 180px;
-}
 #div-guessing {
     font-size: 16px;
 }
