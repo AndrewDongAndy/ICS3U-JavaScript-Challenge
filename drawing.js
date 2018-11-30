@@ -5,6 +5,9 @@ A separate file for drawing (and potentially animation).
 const WIDTH = canvHangman.width;
 const HEIGHT = canvHangman.height;
 
+
+// ----------UTILITY FUNCTIONS----------
+
 // Equivalent to the processing.js line().
 function line(x1, y1, x2, y2) {
     ctx.beginPath();
@@ -20,35 +23,38 @@ function ellipse(x, y, radiusX, radiusY) {
     ctx.stroke();
 }
 
+
+// ----------DRAWING----------
+
+// base parameters
+let baseLeftX = WIDTH / 10;
+let baseRightX = WIDTH / 2;
+let topY = 10;
+let baseY = HEIGHT - 10;
+let personX = 3 / 5 * WIDTH;
+let hookLength = 25;
+let headRadius = 20;
+let bodyLength = 70;
+let wingSpan = 60;
+let eyeRadius = 3;
+
+// derived parameters
+let baseMidX = (baseLeftX + baseRightX) / 2;
+let hookTipY = topY + hookLength;
+let headCentreY = hookTipY + headRadius;
+let bodyTopY = headCentreY + headRadius;
+let bodyBottomY = bodyTopY + bodyLength;
+let armsY = 2 / 3 * bodyTopY + 1 / 3 * bodyBottomY;
+let leftArmX = personX - wingSpan / 2;
+let rightArmX = personX + wingSpan / 2;
+let feetY = bodyBottomY + 2 / 5 * bodyLength;
+let eyeDistance = headRadius / 2;
+let leftEyeX = personX - eyeDistance / 2;
+let rightEyeX = personX + eyeDistance / 2;
+let eyesY = headCentreY - headRadius / 5;
+let mouthY = headCentreY + headRadius / 3;
+
 function updateHook() {
-    // base parameters
-    let baseLeftX = WIDTH / 10;
-    let baseRightX = WIDTH / 2;
-    let topY = 10;
-    let baseY = HEIGHT - 10;
-    let personX = 3 / 5 * WIDTH;
-    let hookLength = 25;
-    let headRadius = 20;
-    let bodyLength = 70;
-    let wingSpan = 60;
-    let eyeRadius = 3;
-
-    // derived parameters
-    let baseMidX = (baseLeftX + baseRightX) / 2;
-    let hookTipY = topY + hookLength;
-    let headCentreY = hookTipY + headRadius;
-    let bodyTopY = headCentreY + headRadius;
-    let bodyBottomY = bodyTopY + bodyLength;
-    let armsY = 2 / 3 * bodyTopY + 1 / 3 * bodyBottomY;
-    let leftArmX = personX - wingSpan / 2;
-    let rightArmX = personX + wingSpan / 2;
-    let feetY = bodyBottomY + 2 / 5 * bodyLength;
-    let eyeDistance = headRadius / 2;
-    let leftEyeX = personX - eyeDistance / 2;
-    let rightEyeX = personX + eyeDistance / 2;
-    let eyesY = headCentreY - headRadius / 5;
-    let mouthY = headCentreY + headRadius / 3;
-
     switch (incorrect) {
         case 0:
             // draw empty hook
