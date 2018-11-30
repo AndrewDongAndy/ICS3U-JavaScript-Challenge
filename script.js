@@ -187,9 +187,8 @@ function initCurState() {
 
 function showGameElements() {
     divGuessing.hidden = false;
-    ctx.clearRect(0, 0, canvHangman.width, canvHangman.height);
     canvHangman.hidden = false;
-    updateHook();
+    updateHook(incorrect);
 }
 
 // Called when user clicks btnNewGame
@@ -239,7 +238,7 @@ function guessChar(c) {
     });
     if (charLocations[v].length == 0) {
         incorrect++;
-        updateHook();
+        updateHook(incorrect);
     }
 }
 

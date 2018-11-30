@@ -5,6 +5,7 @@ A separate file for drawing (and potentially animation).
 const WIDTH = canvHangman.width;
 const HEIGHT = canvHangman.height;
 
+var ctx = canvHangman.getContext('2d');
 
 // ----------UTILITY FUNCTIONS----------
 
@@ -54,9 +55,10 @@ let rightEyeX = personX + eyeDistance / 2;
 let eyesY = headCentreY - headRadius / 5;
 let mouthY = headCentreY + headRadius / 3;
 
-function updateHook() {
+function updateHook(incorrect) {
     switch (incorrect) {
         case 0:
+            ctx.clearRect(0, 0, canvHangman.width, canvHangman.height);
             // draw empty hook
             line(baseLeftX, baseY, baseRightX, baseY); // base
             line(baseMidX, topY, baseMidX, baseY); // stand
