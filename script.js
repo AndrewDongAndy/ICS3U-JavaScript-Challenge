@@ -7,13 +7,8 @@ December 21, 2018
 Javascript Programming Challenge
 
 A program that allows the user to play Hangman.
-
-TODO add graphics, and animation (as required
-by the evaluation criteria)
-
-QUESTION: does generating a random number count as a calculation?
-ANSWER: yes
 */
+
 
 // ----------STATIC----------
 
@@ -57,7 +52,7 @@ function setAnswer(ans) {
     console.assert(isValidAnswer(ans), 'invalid answer!!!');
     answer = ans;
     len = answer.length;
-    // initailizing data required for game
+    // initializing data required for game
     // if char was guessed
     charGuessed = new Array(26);
     charGuessed.fill(false, 0, 26);
@@ -68,8 +63,8 @@ function setAnswer(ans) {
     }
     for (let i = 0; i < len; i++) {
         if (answer.charAt(i) == ' ') continue; // ignore spaces
-        let v = answer.charCodeAt(i) - ID_A; // position in alphabet
-        charLocations[v].push(i);
+        let cId = answer.charCodeAt(i) - ID_A; // position in alphabet
+        charLocations[cId].push(i);
     }
     // the game state
     curState = new Array(len);
@@ -79,7 +74,7 @@ function setAnswer(ans) {
     }
 }
 
-// Sets a random answer for a new regular game.
+// Sets a random answer for a new game.
 function setRandomAnswer() {
     setAnswer(answers[randInt(0, answers.length - 1)]);
 }
@@ -125,7 +120,7 @@ function getCurState() {
 // Returns whether user has won the game; the user wins
 // if and only if the current state does not contain any
 // underscores
-function hasWon() {
+function userHasWon() {
     for (let i = 0; i < len; i++) {
         if (curState[i] == '_') return false;
     }
@@ -217,29 +212,11 @@ function customGame() {
 
 // ----------USER INTERACTION----------
 
-// Returns whether the given string is a valid guess
-// and handles invalid guesses accordingly.
-function isGuessValid(c) {
-    // check if valid
-    if (c.length != 1 || !isAlpha(c)) {
-        alert('Sorry, invalid guess! Please enter an alphabetic character.');
-        return false;
-    }
-    c = c.toUpperCase();
-    // check if this character has been guessed before
-    let v = c.charCodeAt(0) - ID_A;
-    if (charGuessed[v]) {
-        alert(`You have already guessed ${c}; please try again.`);
-        return false;
-    }
-    return true;
-}
-
 // Updates the state of the game displayed to the user.
 // This includes letters/underscores, guesses used,
 // incorrect guesses, and whether user has won.
 function updateState() {
-    preCurState.innerHTML = `${getCurState()}<br><br>`;
+    preCurState.innerHTML = getCurState() + '<br><br>';
     preCurState.innerHTML += `Incorrect guesses: ${incorrect}<br>`;
     preCurState.innerHTML += `Total guesses: ${guesses}<br>`;
     if (guesses != 0) {
@@ -251,7 +228,7 @@ function updateState() {
         }
     }
     // handle winning
-    if (hasWon()) {
+    if (userHasWon()) {
         preCurState.innerHTML += '<br>Congratulations! You won!';
         divGuessing.hidden = true;
         startWinAnimation();
@@ -275,17 +252,27 @@ function txtGuessKeyPressed(event) {
 
 // Called by btnGuess to guess a character
 function userGuessed() {
-    let c = txtGuess.value;
-    if (!isGuessValid(c)) return;
-    c = c.toUpperCase();
-    let v = c.charCodeAt(0) - ID_A;
-    charGuessed[v] = true;
+    let c = txtGuess.value.toUpperCase();
+    // validate input
+    if (c.length != 1 || !isAlpha(c)) {
+        alert('Invalid guess; please enter an alphabetic character.');
+        return;
+    }
+    // check if this character has been guessed before
+    let cId = c.charCodeAt(0) - ID_A; // ASCII id of c
+    if (charGuessed[cId]) {
+        alert(`You have already guessed ${c}... try again!`);
+        return;
+    }
+
+    // input is valid and not previously guessed
+    guesses++;
+    charGuessed[cId] = true;
     // show this character where it appears in the answer
-    charLocations[v].forEach(function(i) {
+    charLocations[cId].forEach(function(i) {
         curState[i] = c;
     });
-    guesses++;
-    if (charLocations[v].length == 0) {
+    if (charLocations[cId].length == 0) {
         incorrect++;
         updateHook(incorrect);
     }
