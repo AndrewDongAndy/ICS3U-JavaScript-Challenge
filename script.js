@@ -120,7 +120,7 @@ function hasWon() {
 
 // ----------GAME INITIALIZATION----------
 
-// Reads in all the answers from the given data file.
+// Loads all answers into the answers array.
 function initAnswers() {
     answers = [
         'Brawl Stars',
@@ -179,7 +179,7 @@ function initCharLocations() {
 // Initializes the curState array.
 function initCurState() {
     curState = new Array(len);
-    // for each index, if it is not a space, show a '_'
+    // for each character, if it is not a space, show a '_'
     for (let i = 0; i < len; i++) {
         curState[i] = (answer[i] == ' ' ? ' ' : '_');
     }
