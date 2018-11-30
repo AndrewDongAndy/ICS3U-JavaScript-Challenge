@@ -208,6 +208,7 @@ function customGame() {
     incorrect = 0;
     let ans = prompt(`Enter an answer string; alphabetic characters only, `
         + `maximum ${MAX_ANS_LEN} characters.`);
+    if (ans == null) return; // user cancelled the prompt
     ans = normalized(ans);
     if (!isValidAnswer(ans)) {
         alert('Sorry, that is not a valid answer string.');
