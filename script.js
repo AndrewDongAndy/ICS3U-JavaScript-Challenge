@@ -253,6 +253,8 @@ function txtGuessKeyPressed(event) {
 // Called by btnGuess to guess a character
 function userGuessed() {
     let c = txtGuess.value.toUpperCase();
+    txtGuess.value = '';
+    txtGuess.focus();
     // validate input
     if (c.length != 1 || !isAlpha(c)) {
         alert('Invalid guess; please enter an alphabetic character.');
@@ -264,7 +266,6 @@ function userGuessed() {
         alert(`You have already guessed ${c}... try again!`);
         return;
     }
-
     // input is valid and not previously guessed
     guesses++;
     charGuessed[cId] = true;
@@ -277,8 +278,6 @@ function userGuessed() {
         updateHook(incorrect);
     }
     updateState();
-    txtGuess.value = '';
-    txtGuess.focus();
 }
 
 // ----------END EVENT HANDLING----------
