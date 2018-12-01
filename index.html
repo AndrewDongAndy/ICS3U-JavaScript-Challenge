@@ -10,26 +10,30 @@
   <body>
     <h1>ICS 3U Hangman</h1>
     <h2>JavaScript Challenge Assignment</h2>
-
-    <!-- Instructions -->
-    <h3>How to play</h3>
-    <ol>
-      <li>
-        Select a game mode
-        <ul>
-          <li>regular game: a word is randomly selected as the answer</li>
-          <li>custom game: set an answer and let a friend try to guess it</li>
-        </ul>
-      </li>
-      <li>
-        Guess letters (one character, alphanumeric) which are in the answer;<br>
-        if your guess is not in the answer, you receive an incorrect guess!
-      </li>
-      <!-- TODO: below, don't have to manually change if number of
-      guesses allowed changes -->
-      <li>Try to guess the answer; once you reach 6 incorrect guesses, you lose!</li>
-    </ol>
-
+    <div id="div-link-to-code">
+      This project was made as my submission to the JavaScript Programming
+      challenge in ICS 3U. The link to my code on GitHub can be found
+      <a href="https://github.com/AndrewDongAndy/ICS3U-JavaScript-Challenge">
+        here</a>.
+    </div>
+    <div id="div-how-to-play">
+      <h3>How to play</h3>
+      <ol>
+        <li>Select a game mode
+          <ul>
+            <li>regular game: a word is randomly selected as the answer</li>
+            <li>custom game: set an answer and let a friend try to guess it</li>
+          </ul>
+        </li>
+        <li>Guess letters (one character, alphanumeric) which are in
+            the answer; if your guess is not in the answer, you
+            receive an incorrect guess!</li>
+        <!-- TODO: below, don't have to manually change if number of
+        guesses allowed changes -->
+        <li>Try to guess the answer;
+            once you reach 6 incorrect guesses, you lose!</li>
+      </ol>
+    </div>
     <!-- Elements used for starting a new game -->
     <div id="div-start-game">
       <button class="btn-start-game" id="btn-new-game"
