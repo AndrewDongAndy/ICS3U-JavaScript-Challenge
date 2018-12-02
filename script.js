@@ -13,7 +13,7 @@ A program that allows the user to play Hangman.
 // ----------STATIC----------
 
 const MAX_ANS_LEN = 30; // longest answer allowed
-const MAX_INCORRECT = 6; // most incorrect guesses allowed
+const MAX_INCORRECT = 6; // number of incorrect guesses allowed
 
 var answers; // master array of all possible answers
 
@@ -28,6 +28,12 @@ function isAlpha(c) {
 // Returns a random integer in the range [a, b].
 function randInt(a, b) {
     return a + Math.floor(Math.random() * (b - a + 1));
+}
+
+// Update the number of incorrect guesses allowed
+function updateIncorrectGuesses() {
+    liIncorrectGuesses.innerHTML = `Try to guess the answer; once you get `
+        + `${MAX_INCORRECT} incorrect guesses, you lose!`;
 }
 
 // ----------END STATIC----------
@@ -169,7 +175,6 @@ function initAnswers() {
     // TODO: use file input/output?
     // http://qnimate.com/javascript-create-file-object-from-url/
 }
-initAnswers(); // call when page loads
 
 // Shows the game elements in preparation for the start
 // of a new round
@@ -253,6 +258,7 @@ function txtGuessKeyPressed(event) {
 
 // Called by btnGuess to guess a character
 function userGuessed() {
+    // get guess and immediately clear and focus text field
     let c = txtGuess.value.toUpperCase();
     txtGuess.value = '';
     txtGuess.focus();
@@ -267,7 +273,7 @@ function userGuessed() {
         alert(`You have already guessed ${c}... try again!`);
         return;
     }
-    // input is valid and not previously guessed
+    // at this point, input is valid and not previously guessed
     guesses++;
     charGuessed[cId] = true;
     // show this character where it appears in the answer
@@ -282,3 +288,8 @@ function userGuessed() {
 }
 
 // ----------END EVENT HANDLING----------
+
+
+// call the below when page loads
+updateIncorrectGuesses();
+initAnswers();
