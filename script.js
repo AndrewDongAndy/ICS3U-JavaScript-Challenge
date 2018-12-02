@@ -44,8 +44,8 @@ var curState; // current state of the game
 
 
 // Sets the answer to the current game and its length.
-// answer should only contain alphabetic
-// characters (case insensitive)
+// answer should only contain alphabetic characters
+// (case insensitive)
 // ABSOLUTELY CANNOT CONTAIN UNDERSCORES
 function setAnswer(ans) {
     // assuming ans is normalized
@@ -85,6 +85,7 @@ function setRandomAnswer() {
 // Returns whether a string is a valid answer string:
 // each character must be alphabetic or a space.
 function isValidAnswer(s) {
+    // must be between 1 and 30 characters, inclusive
     if (s.length == 0 || s.length > MAX_ANS_LEN) return false;
     for (let i = 0; i < s.length; i++) {
         let c = s.charAt(i);
@@ -94,7 +95,7 @@ function isValidAnswer(s) {
 }
 
 // Returns normalized string (all uppercase with single spaces
-// between words)
+// between words), no leading or trailing spaces
 function normalized(s) {
     s = s.trim();
     let res = '';
