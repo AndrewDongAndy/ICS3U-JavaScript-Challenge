@@ -39,15 +39,22 @@ function updateIncorrectGuesses() {
 // ----------END STATIC----------
 
 
-var guesses; // guesses the user has taken
-var incorrect; // guesses the user has taken which were not characters in the answer
-var answer;
-var len;
+// ----------GAME DATA----------
+
+var guesses; // number of guesses the user has taken
+var incorrect; // guesses which were not characters in the answer
+var answer; // answer for the round
+var len; // length of answer (for easier reference)
 
 var charGuessed; // whether each character has been guessed
 var charLocations; // locations of each letter; 2D array
 var curState; // current state of the game
 
+// ----------END GAME DATA----------
+
+
+
+// ----------UTILITY FUNCTIONS----------
 
 // Sets the answer to the current game and its length.
 // answer should only contain alphabetic characters
@@ -84,9 +91,6 @@ function setAnswer(ans) {
 function setRandomAnswer() {
     setAnswer(answers[randInt(0, answers.length - 1)]);
 }
-
-
-// ----------UTILITY FUNCTIONS----------
 
 // Returns whether a string is a valid answer string:
 // each character must be alphabetic or a space.
@@ -207,6 +211,7 @@ function customGame() {
         alert('Sorry, that is not a valid answer string.');
         return;
     }
+    // at this point, the set answer must be valid
     setAnswer(ans);
     showGameElements();
     txtGuess.focus();
@@ -290,6 +295,6 @@ function userGuessed() {
 // ----------END EVENT HANDLING----------
 
 
-// call the below when page loads
+// call the below methods when page loads
 updateIncorrectGuesses();
 initAnswers();
