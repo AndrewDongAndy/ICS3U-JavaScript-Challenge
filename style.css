@@ -13,6 +13,9 @@ h1 {
 h2 {
     font-family: Tahoma;
 }
+h3 {
+    text-decoration-line: underline;
+}
 #txt-guess {
     background-color: #EFD6AC;
     border-color: blue;
