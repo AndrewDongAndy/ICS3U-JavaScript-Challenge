@@ -3,7 +3,6 @@ HTML elements for easier reference in code; note that this is
 the first script to be run in the index.html file.
 */
 
-var btnGuess = document.getElementById('btn-guess');
 var btnNewGame = document.getElementById('btn-new-game');
 var canvHangman = document.getElementById('canv-hangman');
 var divGuessing = document.getElementById('div-guessing');

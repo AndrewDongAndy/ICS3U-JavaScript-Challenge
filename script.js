@@ -264,7 +264,7 @@ function txtGuessKeyPressed(event) {
     }
 }
 
-// Called by btnGuess to guess a character
+// Called by txtGuessKeyPressed to guess a character
 function userGuessed() {
     // get guess and immediately clear and focus text field
     let c = txtGuess.value.toUpperCase();
