@@ -276,7 +276,7 @@ function userGuessed() {
         return;
     }
     // check if this character has been guessed before
-    let cId = c.charCodeAt(0) - ID_A; // ASCII id of c
+    let cId = c.charCodeAt(0) - ID_A; // position in alphabet of c
     if (charGuessed[cId]) {
         alert(`You have already guessed ${c}... try again!`);
         return;
@@ -288,6 +288,8 @@ function userGuessed() {
     charLocations[cId].forEach(function(i) {
         curState[i] = c;
     });
+    // if there are no locations with the given character, then
+    // the guess was incorrect
     if (charLocations[cId].length == 0) {
         incorrect++;
         updateHook(incorrect);
