@@ -29,8 +29,8 @@ pre {
 .start-game-btn {
     background-color: #FFB49A;
     border-radius: 5px;
-    font-family: Helvetica;
     font-size: 16px;
+    padding: 5px 7px;
 }
 ul li {
     list-style-type: square;
