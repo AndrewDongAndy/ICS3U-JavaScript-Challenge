@@ -20,6 +20,7 @@ function line(x1, y1, x2, y2) {
 
 // Equivalent to the processing.js ellipse(), radius mode.
 function ellipse(x, y, radiusX, radiusY) {
+    ctx.beginPath();
     ctx.moveTo(x + radiusX, y);
     ctx.ellipse(x, y, radiusX, radiusY, 0, 0, 2 * Math.PI);
     ctx.stroke();
@@ -51,8 +52,8 @@ let winSpeed = 3;
 let loseSpeed = 1;
 
 function updateHook(incorrect) {
-    if (incorrect == 0) resetHook();
-    else drawPerson(personX, hookTipY, incorrect);
+    resetHook();
+    drawPerson(personX, hookTipY, incorrect);
 }
 
 function clearCanvas() {
