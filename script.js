@@ -36,6 +36,19 @@ function updateIncorrectGuesses() {
         + `${MAX_INCORRECT} incorrect guesses, you lose!`;
 }
 
+// Returns a normalized string (all uppercase with single spaces
+// between words), leading or trailing spaces removed
+function normalized(s) {
+    s = s.trim();
+    let res = '';
+    for (let i = 0; i < s.length; i++) {
+        // below: works due to short-circuiting of || operator
+        if (s.charAt(i) != ' ' || res.charAt(res.length - 1) != ' ')
+            res += s.charAt(i);
+    }
+    return res.toUpperCase();
+}
+
 // ----------END STATIC----------
 
 
@@ -104,19 +117,6 @@ function isValidAnswer(s) {
     return true;
 }
 
-// Returns normalized string (all uppercase with single spaces
-// between words), no leading or trailing spaces
-function normalized(s) {
-    s = s.trim();
-    let res = '';
-    for (let i = 0; i < s.length; i++) {
-        // below: works due to short-circuiting of || operator
-        if (s.charAt(i) != ' ' || res.charAt(res.length - 1) != ' ')
-            res += s.charAt(i);
-    }
-    return res.toUpperCase();
-}
-
 // Returns current state of game (for display only)
 function getCurState() {
     let s = '';
@@ -169,7 +169,10 @@ function initAnswers() {
         'assumption',
         'pencil',
         'browse',
-        'censorship'
+        'censorship',
+        'well played',
+        'good game',
+        'uncommon'
     ];
     // normalize all answers
     for (let i = 0; i < answers.length; i++) {
@@ -180,12 +183,12 @@ function initAnswers() {
     // http://qnimate.com/javascript-create-file-object-from-url/
 }
 
-// Shows the game elements in preparation for the start
-// of a new round
+// Shows the game elements in preparation for the start of a new round.
 function showGameElements() {
     endWinAnimation();
     updateState();
-    updateHook(incorrect);
+    clearCanvas();
+    resetHook();
     divGuessing.hidden = false;
     canvHangman.hidden = false;
 }
