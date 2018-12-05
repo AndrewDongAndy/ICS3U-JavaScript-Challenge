@@ -6,12 +6,6 @@ body {
     background-color: #7FDBFF;
     font-family: Tahoma;
 }
-.btn-start-game {
-    background-color: #FFB49A;
-    border-radius: 5px;
-    font-family: Helvetica;
-    font-size: 16px;
-}
 #div-guessing {
     font-size: 16px;
 }
@@ -32,6 +26,12 @@ input[type=text] {
     padding-right: 4px;
 }
 pre {
+    font-size: 16px;
+}
+.start-game-btn {
+    background-color: #FFB49A;
+    border-radius: 5px;
+    font-family: Helvetica;
     font-size: 16px;
 }
 ul li {
