@@ -86,7 +86,7 @@ function drawPerson(x, y, stage) {
 
     switch (stage) {
         case 6:
-            // mouth (surprised!)
+            // mouth
             ellipse(x, mouthY, eyeDistance, eyeRadius);
         case 5:
             // eyes
@@ -104,11 +104,11 @@ function drawPerson(x, y, stage) {
             line(x, bodyTopY, x, bodyBottomY);
         case 1:
             // head
-            ellipse(x, headCentreY, headRadius, headRadius); // head
+            ellipse(x, headCentreY, headRadius, headRadius);
     }
 }
 
-const LEFT_BOUND = 20;
+const LEFT_BOUND = 2 * headRadius;
 const RIGHT_BOUND = WIDTH - LEFT_BOUND;
 var curX;
 var animationY;
