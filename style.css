@@ -13,12 +13,13 @@ h1 {
 h2 {
     font-family: Tahoma;
 }
-input[type=text] {
+#txt-guess {
     background-color: #EFD6AC;
     border-color: blue;
     border-radius: 10px;
     border-style: groove;
     border-width: 1.5px;
+    margin-left: 10px;
     padding-left: 4px;
     padding-right: 4px;
 }
