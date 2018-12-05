@@ -12,10 +12,11 @@
     <h2>JavaScript Challenge Assignment</h2>
     <div id="div-link-to-code">
       This project was made as my submission to the JavaScript Programming
-      Challenge in ICS 3U. The link to my code on GitHub can be found
+      Challenge in ICS 3U. The link to my repository on GitHub can be found
       <a href="https://github.com/AndrewDongAndy/ICS3U-JavaScript-Challenge">
         here</a>.
     </div>
+    <!-- Telling user how to play -->
     <div id="div-how-to-play">
       <h3>How to play</h3>
       <ol>
@@ -28,7 +29,7 @@
         <li>Guess letters (one character, alphanumeric) which are in
             the answer; if your guess is not in the answer, you
             receive an incorrect guess!</li>
-        <!-- Below gets edited via script.js -->
+        <!-- Below gets edited via script.js when page loads -->
         <li id="li-incorrect-guesses"></li>
       </ol>
     </div>
@@ -46,7 +47,7 @@
       <input type="text" id="txt-guess" maxlength="1"
           onkeypress="txtGuessKeyPressed(event)"/>
     </div>
-    <!-- pre: preformatted text to avoid space collapsing -->
+    <!-- Elements used to show results and game state -->
     <pre id="pre-cur-state"></pre>
     <canvas id="canv-hangman" width="300" height="200" hidden/>
     <!-- script elements; order is significant -->
