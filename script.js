@@ -147,7 +147,7 @@ function userHasWon() {
 
 // Loads all valid answers from the makeshift text file "word_list.js"
 // into the answers array. Normalizes the valid answers and eliminates
-// invalid answers.
+// the invalid answers.
 function initAnswers() {
     let tmp = word_list.split('\n'); // lines of makeshift text file
     answers = [];
@@ -200,7 +200,7 @@ function customGame() {
         alert('Sorry, that is not a valid answer string.');
         return;
     }
-    // at this point, the set answer must be valid
+    // at this point, the given answer string must be valid
     setAnswer(ans);
     showGameElements();
     txtGuess.focus();
@@ -245,7 +245,7 @@ function updateState() {
 
 // ----------EVENT HANDLING----------
 
-// Checks for when user presses enter to guess a character
+// Checks for when user presses enter to guess a character.
 function txtGuessKeyPressed(event) {
     if (event.charCode == 13) { // code of enter key is 13
         userGuessed();
