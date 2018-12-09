@@ -75,7 +75,6 @@ var curState; // current state of the game
 // ABSOLUTELY CANNOT CONTAIN UNDERSCORES
 function setAnswer(ans) {
     // assuming ans is normalized
-    console.assert(isValidAnswer(ans), 'invalid answer!!!');
     answer = ans;
     len = answer.length;
     // initializing data required for game
@@ -143,44 +142,63 @@ function userHasWon() {
 
 // ----------GAME INITIALIZATION----------
 
-// Loads all answers into the answers array.
+
+// seems like filesystem input is not allowed for security reasons
+// and that the FileSystem API is not fully supported on many
+// browsers; thus, will just use this method for now
+
+// A makeshift (possibly permanent) "text file" for storing
+// and adding new words
+var words = `
+caterpillar
+unstoppable
+Brawl Stars
+weird
+legendary
+unambiguous
+jazz
+conservatory
+galaxy
+avid
+laptop
+programming
+xylophone
+assassin
+Fahrenheit
+hydrogen
+combustion
+ultimate
+request
+assumption
+pencil
+browser
+well played
+good game
+thanks
+uncommon
+awkward
+never give up
+please
+_exclude me plz
+this answer is probably way too long
+sweater
+`
+
+// Loads all valid answers into the answers array.
 function initAnswers() {
-    answers = [
-        'Brawl Stars',
-        'Grace Hopper',
-        'unambiguous',
-        'jazz',
-        'legendary',
-        'conservatory',
-        'galaxy',
-        'avid',
-        'caterpillar',
-        'laptop',
-        'programming',
-        'xylophone',
-        'assassin',
-        'Fahrenheit',
-        'hydrogen',
-        'phenolphthalein',
-        'combustion',
-        'ultimate',
-        'request',
-        'trigger',
-        'assumption',
-        'pencil',
-        'browse',
-        'censorship',
-        'well played',
-        'good game',
-        'uncommon'
-    ];
-    // normalize all answers
-    for (let i = 0; i < answers.length; i++) {
-        answers[i] = normalized(answers[i]);
-    }
-    // assumption that all file strings are valid: alphabetic and nonempty
-    // TODO: use file input/output?
-    // http://qnimate.com/javascript-create-file-object-from-url/
+    answers = [];
+    let tmp = words.trim().split('\n');
+    tmp.forEach(function(a) {
+        a = a.trim();
+        if (isValidAnswer(a)) {
+            answers.push(normalized(a));
+        }
+        else {
+            console.error(`invalid answer (word excluded): '${a}'`);
+        }
+    });
+    // console.log(tmp);
+    // console.log(answers);
 }
 
 // Shows the game elements in preparation for the start of a new round.
