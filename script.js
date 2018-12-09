@@ -169,7 +169,7 @@ function initAnswers() {
 }
 
 // Shows the game elements in preparation for the start of a new round.
-function showGameElements() {
+function initGameElements() {
     endAnimation();
     updateState();
     clearCanvas();
@@ -177,6 +177,9 @@ function showGameElements() {
     divGuessing.hidden = false;
     preCurState.hidden = false;
     canvHangman.hidden = false;
+    txtGuess.value = '';
+    txtSolve.value = '';
+    txtGuess.focus();
 }
 
 // Called when user clicks btnNewGame
@@ -184,8 +187,7 @@ function newGame() {
     guesses = 0;
     incorrect = 0;
     setRandomAnswer();
-    showGameElements();
-    txtGuess.focus();
+    initGameElements();
 }
 
 // Called when user clicks btnCustomGame
@@ -202,8 +204,7 @@ function customGame() {
     }
     // at this point, the given answer string must be valid
     setAnswer(ans);
-    showGameElements();
-    txtGuess.focus();
+    initGameElements();
     alert(`Success! Answer set as: ${answer}`);
 }
 
