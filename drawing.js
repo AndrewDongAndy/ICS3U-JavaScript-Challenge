@@ -8,6 +8,7 @@ const HEIGHT = canvHangman.height;
 
 var ctx = canvHangman.getContext('2d');
 
+
 // ----------UTILITY FUNCTIONS----------
 
 // Equivalent to the processing.js line().
@@ -25,6 +26,8 @@ function ellipse(x, y, radiusX, radiusY) {
     ctx.ellipse(x, y, radiusX, radiusY, 0, 0, 2 * Math.PI);
     ctx.stroke();
 }
+
+// ----------END UTILITY FUNCTIONS----------
 
 
 // ----------DRAWING----------
@@ -45,7 +48,7 @@ let personX = 3 / 5 * WIDTH;
 let headRadius = 20;
 let bodyLength = 70;
 let wingSpan = 60;
-let eyeRadius = 3;
+let eyeRadius = 2.5;
 
 function updateHook(incorrect) {
     resetHook();
@@ -104,9 +107,12 @@ function drawPerson(x, y, stage) {
     }
 }
 
-// Animation parameters
+// ----------END DRAWING----------
 
-// bounds between which person is bounced
+
+// ----------ANIMATION----------
+
+// bounds between which the person is bounced
 const LEFT_BOUND = 2 * headRadius;
 const RIGHT_BOUND = WIDTH - LEFT_BOUND;
 
@@ -149,3 +155,5 @@ function animatePerson() {
     curX += deltaX;
     cancelId = requestAnimationFrame(animatePerson);
 }
+
+// ----------END ANIMATION----------
