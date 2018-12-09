@@ -234,12 +234,12 @@ function updateState() {
     }
     // handle winning
     if (userHasWon()) {
-        preCurState.innerHTML += '<br>Congratulations! You won!';
+        preCurState.innerHTML += '<br><br>Congratulations! You won!';
         divGuessing.hidden = true;
         startWinAnimation();
     }
     else if (incorrect == MAX_INCORRECT) {
-        preCurState.innerHTML += '<br>You lost!<br>';
+        preCurState.innerHTML += '<br><br>You lost!<br>';
         preCurState.innerHTML += `The answer was ${answer}.`;
         divGuessing.hidden = true;
         startLoseAnimation();
