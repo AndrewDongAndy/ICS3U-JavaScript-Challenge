@@ -47,10 +47,6 @@ let bodyLength = 70;
 let wingSpan = 60;
 let eyeRadius = 3;
 
-// animation parameters
-let winSpeed = 3;
-let loseSpeed = 1;
-
 function updateHook(incorrect) {
     resetHook();
     drawPerson(personX, hookTipY, incorrect);
@@ -108,37 +104,48 @@ function drawPerson(x, y, stage) {
     }
 }
 
+// Animation parameters
+
+// bounds between which person is bounced
 const LEFT_BOUND = 2 * headRadius;
 const RIGHT_BOUND = WIDTH - LEFT_BOUND;
-var curX;
-var animationY;
-var delta;
-var cancelId = null;
+
+// bouncing speeds
+const winMvtSpeed = 3;
+const loseMvtSpeed = 1;
+
+// to carry out animation
+var curX;               // current location to display person
+var animationY;         // y-coordinate to display ongoing animation
+var deltaX;             // change in x for each animation frame
+var cancelId = null;    // to cancel the ongoing animation
 
 function startWinAnimation() {
     curX = LEFT_BOUND;
     animationY = 30;
-    delta = winSpeed;
-    animateWin();
-}
-
-function endWinAnimation() {
-    if (cancelId == null) return;
-    cancelAnimationFrame(cancelId);
-    cancelId = null;
-}
-
-function animateWin() {
-    clearCanvas();
-    drawPerson(curX, animationY, PERSON_STAGES);
-    if (curX > RIGHT_BOUND || curX < LEFT_BOUND) delta = -delta;
-    curX += delta;
-    cancelId = requestAnimationFrame(animateWin);
+    deltaX = winMvtSpeed;
+    animatePerson();
 }
 
 function startLoseAnimation() {
     curX = LEFT_BOUND;
     animationY = HEIGHT - 5 / 2 * headRadius;
-    delta = loseSpeed;
-    animateWin();
+    deltaX = loseMvtSpeed;
+    animatePerson();
+}
+
+function endAnimation() {
+    if (cancelId == null) return;
+    cancelAnimationFrame(cancelId);
+    cancelId = null;
+}
+
+// Bounces a person back and forth between the x-values
+// LEFT_BOUND and RIGHT_BOUND at the given y-coordinate.
+function animatePerson() {
+    clearCanvas();
+    drawPerson(curX, animationY, PERSON_STAGES);
+    if (curX > RIGHT_BOUND || curX < LEFT_BOUND) deltaX = -deltaX;
+    curX += deltaX;
+    cancelId = requestAnimationFrame(animatePerson);
 }

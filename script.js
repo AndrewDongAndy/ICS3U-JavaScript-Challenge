@@ -5,10 +5,12 @@ The main container for all methods called by HTML events.
 
 // ----------STATIC----------
 
-const MAX_ANS_LEN = 30; // longest answer allowed
-const MAX_INCORRECT = 6; // number of incorrect guesses allowed
 
 var answers; // master array of all possible answers
+
+// Game parameters
+const MAX_ANS_LEN = 30;     // longest answer allowed
+const MAX_INCORRECT = 6;    // number of incorrect guesses allowed
 
 // ASCII id for the character 'A'
 const ID_A = 65;
@@ -19,12 +21,14 @@ function isAlpha(c) {
 }
 
 // Returns a random integer in the range [a, b].
+// Used to select a random answer for a regular game.
 function randInt(a, b) {
     return a + Math.floor(Math.random() * (b - a + 1));
 }
 
-// Update the number of incorrect guesses allowed
-function updateIncorrectGuesses() {
+// Update the number of incorrect guesses allowed shown
+// in the "How to play" section of the HTML
+function updateLiIncorrectGuesses() {
     liIncorrectGuesses.innerHTML = `Try to guess the answer; once you get `
         + `${MAX_INCORRECT} incorrect guesses, you lose!`;
 }
@@ -32,14 +36,15 @@ function updateIncorrectGuesses() {
 // Returns a normalized string (all uppercase with single spaces
 // between words), leading or trailing spaces removed
 function normalized(s) {
-    s = s.trim();
+    s = s.trim().toUpperCase();
     let res = '';
+    // remove extra whitespace within string
     for (let i = 0; i < s.length; i++) {
         // below: works due to short-circuiting of || operator
         if (s.charAt(i) != ' ' || res.charAt(res.length - 1) != ' ')
             res += s.charAt(i);
     }
-    return res.toUpperCase();
+    return res;
 }
 
 // ----------END STATIC----------
@@ -47,14 +52,15 @@ function normalized(s) {
 
 // ----------GAME DATA----------
 
-var guesses; // number of guesses the user has taken
-var incorrect; // guesses which were not characters in the answer
-var answer; // answer for the round
-var len; // length of answer (for easier reference)
+var guesses;            // number of guesses the user has taken
+var incorrect;          // guesses which were not characters in the answer
+var answer;             // answer for the round
+var len;                // length of answer
 
-var charGuessed; // whether each character has been guessed
-var charLocations; // locations of each letter; 2D array
-var curState; // current state of the game
+// arrays
+var charGuessed;        // whether each character has been guessed
+var charLocations;      // locations of each letter; 2D array
+var curState;           // current state of the game
 
 // ----------END GAME DATA----------
 
@@ -65,16 +71,19 @@ var curState; // current state of the game
 // Sets the answer to the current game and its length.
 // answer should only contain alphabetic characters
 // (case insensitive)
-// ABSOLUTELY CANNOT CONTAIN UNDERSCORES
+// NOTE: ABSOLUTELY CANNOT CONTAIN UNDERSCORES!!!
 function setAnswer(ans) {
     // assuming ans is normalized
     answer = ans;
     len = answer.length;
-    // initializing data required for game
+
+    // Initializing data required for game:
+
     // if char was guessed
     charGuessed = new Array(26);
     charGuessed.fill(false, 0, 26);
-    // locations of each character
+
+    // locations at which each character appears
     charLocations = new Array(26);
     for (let i = 0; i < 26; i++) {
         charLocations[i] = [];
@@ -84,7 +93,8 @@ function setAnswer(ans) {
         let cId = answer.charCodeAt(i) - ID_A; // position in alphabet
         charLocations[cId].push(i);
     }
-    // the game state
+
+    // game state
     curState = new Array(len);
     // for each character, if it is not a space, show a '_'
     for (let i = 0; i < len; i++) {
@@ -115,7 +125,7 @@ function getCurState() {
     for (let i = 0; i < len; i++) {
         if (curState[i] == ' ') s += '  '; // exaggerate spaces in word
         else s += curState[i];
-        s += ' ';
+        if (i != len - 1) s += ' ';
     }
     return s;
 }
@@ -201,7 +211,7 @@ function initAnswers() {
 
 // Shows the game elements in preparation for the start of a new round.
 function showGameElements() {
-    endWinAnimation();
+    endAnimation();
     updateState();
     clearCanvas();
     resetHook();
@@ -250,17 +260,15 @@ function updateState() {
     preCurState.innerHTML = getCurState() + '<br><br>';
     preCurState.innerHTML += `Incorrect guesses: ${incorrect}<br>`;
     preCurState.innerHTML += `Total guesses: ${guesses}<br>`;
-    preCurState.innerHTML += 'Letters guessed: ';
+    preCurState.innerHTML += 'Letters guessed:';
+    for (let i = 0; i < 26; i++) {
+        if (charGuessed[i]) {
+            preCurState.innerHTML += ' ' + String.fromCharCode(ID_A + i);
+        }
+    }
     // if no letters guessed, show 'none'
     if (guesses == 0) {
-        preCurState.innerHTML += 'none';
-    }
-    else {
-        for (let i = 0; i < 26; i++) {
-            if (charGuessed[i]) {
-                preCurState.innerHTML += String.fromCharCode(ID_A + i) + ' ';
-            }
-        }
+        preCurState.innerHTML += ' none';
     }
     // handle winning
     if (userHasWon()) {
@@ -280,12 +288,13 @@ function updateState() {
 
 // Checks for when user presses enter to guess a character
 function txtGuessKeyPressed(event) {
-    if (event.charCode == 13) { // code of enter key
+    if (event.charCode == 13) { // code of enter key is 13
         userGuessed();
     }
 }
 
-// Called by txtGuessKeyPressed to guess a character
+// Called by txtGuessKeyPressed to guess a character.
+// Handles bad input accordingly.
 function userGuessed() {
     // get guess and immediately clear and focus text field
     let c = txtGuess.value.toUpperCase();
@@ -299,7 +308,7 @@ function userGuessed() {
     // check if this character has been guessed before
     let cId = c.charCodeAt(0) - ID_A; // position in alphabet of c
     if (charGuessed[cId]) {
-        alert(`You have already guessed ${c}... try again!`);
+        alert(`You have already guessed ${c}. Try again!`);
         return;
     }
     // at this point, input is valid and not previously guessed
@@ -322,5 +331,5 @@ function userGuessed() {
 
 
 // call the below methods when page loads
-updateIncorrectGuesses();
+updateLiIncorrectGuesses();
 initAnswers();
