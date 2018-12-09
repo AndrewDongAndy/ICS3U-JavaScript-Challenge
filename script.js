@@ -185,7 +185,7 @@ sweater
 `
 
 // Loads all valid answers from the makeshift text file above
-// into the answers array.
+// into the answers array. Normalizes the valid answers.
 function initAnswers() {
     let tmp = words.split('\n'); // lines of makeshift text file
     answers = [];
