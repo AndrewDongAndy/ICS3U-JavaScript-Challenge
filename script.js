@@ -9,7 +9,7 @@ The main container for all methods called by HTML events.
 var answers; // master array of all possible answers
 
 // Game parameters
-const MAX_ANS_LEN = 30;     // longest answer allowed
+const MAX_ANS_LEN = 35;     // longest answer allowed
 const MAX_INCORRECT = 6;    // number of incorrect guesses allowed
 
 // ASCII id for the character 'A'
@@ -110,7 +110,7 @@ function setRandomAnswer() {
 // Returns whether a string is a valid answer string:
 // each character must be alphabetic or a space.
 function isValidAnswer(s) {
-    // must be between 1 and 30 characters, inclusive
+    // must be between 1 and MAX_ANS_LEN characters, inclusive
     if (s.length == 0 || s.length > MAX_ANS_LEN) return false;
     for (let i = 0; i < s.length; i++) {
         let c = s.charAt(i);
