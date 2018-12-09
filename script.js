@@ -29,8 +29,8 @@ function randInt(a, b) {
 // Update the number of incorrect guesses allowed shown
 // in the "How to play" section of the HTML
 function updateLiIncorrectGuesses() {
-    liIncorrectGuesses.innerHTML = `Try to guess the answer; once you get `
-        + `${MAX_INCORRECT} incorrect guesses, you lose!`;
+    liIncorrectGuesses.innerHTML = `Once you get ${MAX_INCORRECT} incorrect `
+        + `guesses, you lose!`;
 }
 
 // Returns a normalized string (all uppercase with single spaces
