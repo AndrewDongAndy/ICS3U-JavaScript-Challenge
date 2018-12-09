@@ -1,12 +1,5 @@
 /*
-Andy Dong
-Mr. Cutten
-ICS 3U
-December 21, 2018
-
-Javascript Programming Challenge
-
-A program that allows the user to play Hangman.
+The main container for all methods called by HTML events.
 */
 
 
