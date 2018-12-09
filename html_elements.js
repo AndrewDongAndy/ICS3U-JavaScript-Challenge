@@ -3,10 +3,11 @@ HTML elements for easier reference in code; note that this is
 the first script to be run in the index.html file.
 */
 
-var btnNewGame = document.getElementById('btn-new-game');
-var canvHangman = document.getElementById('canv-hangman');
-var divGuessing = document.getElementById('div-guessing');
-var divStartGame = document.getElementById('div-start-game');
-var liIncorrectGuesses = document.getElementById('li-incorrect-guesses');
-var preCurState = document.getElementById('pre-cur-state');
-var txtGuess = document.getElementById('txt-guess');
+const btnNewGame = document.getElementById('btn-new-game');
+const canvHangman = document.getElementById('canv-hangman');
+const divGuessing = document.getElementById('div-guessing');
+const divStartGame = document.getElementById('div-start-game');
+const liIncorrectGuesses = document.getElementById('li-incorrect-guesses');
+const preCurState = document.getElementById('pre-cur-state');
+const txtGuess = document.getElementById('txt-guess');
+const txtSolve = document.getElementById('txt-solve');
