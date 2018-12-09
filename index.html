@@ -42,10 +42,14 @@ Written using HTML, CSS, JS: the languages of the web.
             <li>custom game: set an answer and let a friend try to guess it</li>
           </ul>
         </li>
-        <li>Guess letters (one character, alphanumeric) which are in the answer
-          <ul><li>
-            if your guess is not in the answer, you receive an incorrect guess!
-          </li></ul>
+        <li>Guess letters (one character, alphabetic) which are in the answer
+          <ul>
+            <li>press enter to submit</li>
+            <li>if your guess is not in the answer, you receive an incorrect
+                guess!</li>
+          </ul>
+        </li>
+        <li>Or, try to guess the whole phrase at once!</li>
         <!-- Below gets edited via script.js when page loads -->
         <li id="li-incorrect-guesses"></li>
       </ol>
@@ -61,9 +65,12 @@ Written using HTML, CSS, JS: the languages of the web.
     <br>
     <!-- Elements used for guessing a letter -->
     <div id="div-guessing" hidden>
-      Guess a letter (enter to submit):
-      <input type="text" id="txt-guess" maxlength="1"
+      Guess a letter:
+      <input type="text" class="guess-txt-field" id="txt-guess" maxlength="1"
           onkeypress="txtGuessKeyPressed(event)"/>
+      Solve the puzzle:
+      <input type="text" class="guess-txt-field" id="txt-solve"
+          onkeypress="txtSolveKeyPressed(event)"/>
     </div>
     <!-- Elements used to show results and game state -->
     <pre id="pre-cur-state" hidden></pre>

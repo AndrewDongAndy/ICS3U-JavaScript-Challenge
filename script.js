@@ -220,13 +220,15 @@ function updateState() {
     preCurState.innerHTML += `Incorrect guesses: ${incorrect}<br>`;
     preCurState.innerHTML += `Total guesses: ${guesses}<br>`;
     preCurState.innerHTML += 'Letters guessed:';
+    let g = false; // whether user has guessed an individual character
     for (let i = 0; i < 26; i++) {
         if (charGuessed[i]) {
+            g = true;
             preCurState.innerHTML += ' ' + String.fromCharCode(ID_A + i);
         }
     }
-    // if no letters guessed, show 'none'
-    if (guesses == 0) {
+    // if no individual characters guessed, show 'none'
+    if (!g) {
         preCurState.innerHTML += ' none';
     }
     // handle winning
@@ -241,6 +243,9 @@ function updateState() {
         divGuessing.hidden = true;
         startLoseAnimation();
     }
+    else {
+        updateHook(incorrect);
+    }
 }
 
 // ----------EVENT HANDLING----------
@@ -249,6 +254,12 @@ function updateState() {
 function txtGuessKeyPressed(event) {
     if (event.charCode == 13) { // code of enter key is 13
         userGuessed();
+    }
+}
+
+function txtSolveKeyPressed(event) {
+    if (event.charCode == 13) { // code of enter key is 13
+        userSolved();
     }
 }
 
@@ -261,7 +272,7 @@ function userGuessed() {
     txtGuess.focus();
     // validate input
     if (c.length != 1 || !isAlpha(c)) {
-        alert('Invalid guess; please enter an alphabetic character.');
+        alert('Invalid guess: please enter an alphabetic character.');
         return;
     }
     // check if this character has been guessed before
@@ -281,7 +292,30 @@ function userGuessed() {
     // the guess was incorrect
     if (charLocations[cId].length == 0) {
         incorrect++;
-        updateHook(incorrect);
+    }
+    updateState();
+}
+
+function userSolved() {
+    let s = normalized(txtSolve.value);
+    txtSolve.value = '';
+    txtSolve.focus();
+    // validate input
+    if (!isValidAnswer(s)) {
+        alert('Invalid guess: the answer is alphabetic and between 1 and '
+            + MAX_ANS_LEN + ' characters.');
+        return;
+    }
+    // at this point, guess must be valid
+    guesses++;
+    if (s == answer) {
+        // guess is correct: show full answer
+        for (let i = 0; i < len; i++) {
+            curState[i] = answer.charAt(i);
+        }
+    }
+    else {
+        incorrect++;
     }
     updateState();
 }
