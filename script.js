@@ -171,8 +171,8 @@ ultimate
 request
 assumption
 pencil
-browser
-well played
+            browser
+well                      played
 good game
 thanks
 uncommon
@@ -184,19 +184,24 @@ this answer is probably way too long
 sweater
 `
 
-// Loads all valid answers into the answers array.
+// Loads all valid answers from the makeshift text file above
+// into the answers array.
 function initAnswers() {
+    let tmp = words.split('\n'); // lines of makeshift text file
     answers = [];
-    let tmp = words.trim().split('\n');
-    tmp.forEach(function(a) {
-        a = a.trim();
-        if (isValidAnswer(a)) {
-            answers.push(normalized(a));
+    for (let i = 0; i < tmp.length; i++) {
+        let a = tmp[i];
+        let na = normalized(a);
+        if (na.length == 0) continue; // skip lines which only contain whitespace
+        if (isValidAnswer(na)) {
+            answers.push(na);
         }
         else {
-            console.error(`invalid answer (word excluded): '${a}'`);
+            // invalid answer: show warning in console, and display
+            // original value (not normalized value)
+            console.warn(`invalid answer excluded: "${a}"`);
         }
-    });
+    }
     // console.log(tmp);
     // console.log(answers);
 }
