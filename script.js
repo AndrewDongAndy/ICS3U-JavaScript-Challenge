@@ -190,6 +190,7 @@ function showGameElements() {
     clearCanvas();
     resetHook();
     divGuessing.hidden = false;
+    preCurState.hidden = false;
     canvHangman.hidden = false;
 }
 
