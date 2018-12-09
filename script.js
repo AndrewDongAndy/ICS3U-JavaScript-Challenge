@@ -234,8 +234,12 @@ function updateState() {
     preCurState.innerHTML = getCurState() + '<br><br>';
     preCurState.innerHTML += `Incorrect guesses: ${incorrect}<br>`;
     preCurState.innerHTML += `Total guesses: ${guesses}<br>`;
-    if (guesses != 0) {
-        preCurState.innerHTML += 'Letters guessed: ';
+    preCurState.innerHTML += 'Letters guessed: ';
+    // if no letters guessed, show 'none'
+    if (guesses == 0) {
+        preCurState.innerHTML += 'none';
+    }
+    else {
         for (let i = 0; i < 26; i++) {
             if (charGuessed[i]) {
                 preCurState.innerHTML += String.fromCharCode(ID_A + i) + ' ';
