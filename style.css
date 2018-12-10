@@ -38,6 +38,7 @@ pre {
 .start-game-btn:hover {
   background-color: green;
   color: white;
+  transform: scale(1.1);
   transition: all 0.2s ease;
 }
 ul li {
