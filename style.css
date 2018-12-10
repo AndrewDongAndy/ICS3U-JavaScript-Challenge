@@ -30,8 +30,15 @@ pre {
   background-color: #FFB49A;
   border: 1.5px solid black;
   border-radius: 5px;
+  color: black;
   font-size: 15px;
   padding: 5px 7px;
+}
+.start-game-btn:hover {
+  background-color: black;
+  border: 1.5px solid green;
+  color: white;
+  transition: all 0.2s ease 0.2s;
 }
 ul li {
   list-style-type: square;
