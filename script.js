@@ -76,29 +76,23 @@ function setAnswer(ans) {
   // assuming ans is normalized
   answer = ans;
   len = answer.length;
-
-  // Initializing data required for game:
-
-  // if char was guessed
   charGuessed = new Array(26);
   charGuessed.fill(false, 0, 26);
-
-  // locations at which each character appears
+  // store locations of each character: charLocations[i] contains all
+  // locations where the ith letter (0-indexed) of the alphabet appears
   charLocations = new Array(26);
   for (let i = 0; i < 26; i++) {
     charLocations[i] = [];
   }
   for (let i = 0; i < len; i++) {
-    if (answer.charAt(i) == ' ') {
-      continue; // ignore spaces
+    if (answer.charAt(i) != ' ') {
+      let cId = answer.charCodeAt(i) - ID_A;
+      charLocations[cId].push(i);
     }
-    let cId = answer.charCodeAt(i) - ID_A; // position in alphabet
-    charLocations[cId].push(i);
   }
-
-  // game state
+  // initialize current game state:
+  // for each character, if it is not a space, show an underscore
   curState = new Array(len);
-  // for each character, if it is not a space, show a '_'
   for (let i = 0; i < len; i++) {
     curState[i] = (answer[i] == ' ' ? ' ' : '_');
   }
