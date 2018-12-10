@@ -304,8 +304,8 @@ function userSolved() {
   txtSolve.focus();
   // validate input
   if (!isValidAnswer(s)) {
-    alert('Invalid guess: the answer is alphabetic and between 1 and '
-        + MAX_ANS_LEN + ' characters.');
+    alert('Invalid guess: the answer is alphabetic and between 1 and ' +
+        MAX_ANS_LEN + ' characters.');
     return;
   }
   // at this point, guess must be valid

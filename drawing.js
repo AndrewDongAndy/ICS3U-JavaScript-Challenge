@@ -84,6 +84,7 @@ function drawPerson(x, y, stage) {
   let mouthY = headCentreY + headRadius / 3;
 
   switch (stage) {
+    // always fall through
     case 6:
       // mouth
       ellipse(x, mouthY, eyeDistance, eyeRadius);
@@ -104,6 +105,8 @@ function drawPerson(x, y, stage) {
     case 1:
       // head
       ellipse(x, headCentreY, headRadius, headRadius);
+    default:
+      
   }
 }
 
