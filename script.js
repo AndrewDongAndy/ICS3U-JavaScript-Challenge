@@ -65,7 +65,7 @@ function updateLiIncorrectGuesses() {
 function normalized(s) {
   s = s.trim().toUpperCase();
   let res = '';
-  // remove extra whitespace within string
+  // remove extra whitespace within string (e.g. collapse spaces)
   for (let c of s) {
     // below: works due to short-circuiting of || operator
     if (c != ' ' || res.charAt(res.length - 1) != ' ') {
@@ -136,20 +136,30 @@ function setRandomAnswer() {
 }
 
 /**
- * Returns whether a string is a valid answer string. In a valid
- * answer string, each character must be alphabetic or a space.
+ * Returns whether a string is a valid answer string. In a valid answer
+ * string, each character must be an uppercase letter or a space.
+ * Includes debugging statements via console.warn() to show reason
+ * a given string is invalid.
  *
  * @param {string} s the string to validate
  * @return {boolean} whether the string is a valid answer string
  */
 function isValidAnswer(s) {
   // must be between 1 and MAX_ANS_LEN characters, inclusive
-  if (s.length == 0 || s.length > MAX_ANS_LEN) {
+  if (s.length == 0) {
+    console.warn('invalid answer: empty string');
+    return false;
+  }
+  if (s.length > MAX_ANS_LEN) {
     console.warn(`invalid answer (too long): ${s}`);
     return false;
   }
   for (let i = 0; i < s.length; i++) {
     let c = s.charAt(i);
+    if (c != c.toUpperCase()) {
+      console.warn(`invalid answer (not all uppercase): ${s}`);
+      return false;
+    }
     if (!isAlpha(c) && c != ' ') {
       console.warn(`invalid answer (not alphabetic): ${s}`);
       return false;
