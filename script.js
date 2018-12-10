@@ -5,15 +5,15 @@ The main container for all methods called by HTML events.
 
 // ----------STATIC----------
 
-
 var answers; // master array of all possible answers
 
 // Game parameters
 const MAX_ANS_LEN = 35;     // longest answer allowed
 const MAX_INCORRECT = 6;    // number of incorrect guesses allowed
 
-// ASCII id for the character 'A'
-const ID_A = 65;
+// Character IDs
+const ID_ENTER = 13;        // character code of enter key
+const ID_A = 65;            // ASCII id for the character 'A'
 
 // Returns whether or not the given character is alphabetic.
 function isAlpha(c) {
@@ -29,8 +29,8 @@ function randInt(a, b) {
 // Update the number of incorrect guesses allowed shown
 // in the "How to play" section of the HTML
 function updateLiIncorrectGuesses() {
-  liIncorrectGuesses.innerHTML = `Once you get ${MAX_INCORRECT} incorrect `
-      + `guesses, you lose!`;
+  liIncorrectGuesses.innerHTML = 'Once you get ' + MAX_INCORRECT +
+      ' incorrect guesses, you lose!';
 }
 
 // Returns a normalized string (all uppercase with single spaces
@@ -39,10 +39,10 @@ function normalized(s) {
   s = s.trim().toUpperCase();
   let res = '';
   // remove extra whitespace within string
-  for (let i = 0; i < s.length; i++) {
+  for (let c of s) {
     // below: works due to short-circuiting of || operator
-    if (s.charAt(i) != ' ' || res.charAt(res.length - 1) != ' ') {
-      res += s.charAt(i);
+    if (c != ' ' || res.charAt(res.length - 1) != ' ') {
+      res += c;
     }
   }
   return res;
@@ -64,7 +64,6 @@ var charLocations;      // locations of each letter; 2D array
 var curState;           // current state of the game
 
 // ----------END GAME DATA----------
-
 
 
 // ----------UTILITY FUNCTIONS----------
@@ -150,6 +149,13 @@ function userHasWon() {
   return true;
 }
 
+// Returns whether user has lost the game; the user loses
+// if and only if they have reached the maximum number of
+// incorrect guesses allowed
+function userHasLost() {
+  return incorrect == MAX_INCORRECT;
+}
+
 // ----------END UTILITY FUNCTIONS----------
 
 
@@ -171,12 +177,11 @@ function initAnswers() {
       answers.push(na);
     } else {
       // invalid answer: show warning in console, and display
-      // ORIGINAL value (not normalized value)
+      // original value (not normalized value).
+      // serves only as a debugging mechanism
       console.warn(`invalid answer excluded: "${a}"`);
     }
   }
-  // console.log(tmp);
-  // console.log(answers);
 }
 
 // Shows the game elements in preparation for the start of a new round.
@@ -241,18 +246,18 @@ function updateState() {
       preCurState.innerHTML += ' ' + String.fromCharCode(ID_A + i);
     }
   }
-  // if no individual characters guessed, show 'none'
+  // if no individual characters have been guessed, show 'none'
   if (!g) {
     preCurState.innerHTML += ' none';
   }
-  // handle winning
+  // handle game end
   if (userHasWon()) {
     preCurState.innerHTML += '<br><br>Congratulations! You won!';
     divGuessing.hidden = true;
     startWinAnimation();
-  } else if (incorrect == MAX_INCORRECT) {
-    preCurState.innerHTML += '<br><br>You lost!<br>';
-    preCurState.innerHTML += `The answer was ${answer}.`;
+  } else if (userHasLost()) {
+    preCurState.innerHTML += '<br><br>You lost!';
+    preCurState.innerHTML += `<br>The answer was ${answer}.`;
     divGuessing.hidden = true;
     startLoseAnimation();
   } else {
@@ -260,10 +265,10 @@ function updateState() {
   }
 }
 
+// ----------END USER INTERACTION----------
+
+
 // ----------EVENT HANDLING----------
-
-
-const ID_ENTER = 13; // character code of enter key is 13
 
 // Checks for when user presses enter to guess a character.
 function txtGuessKeyPressed(event) {
