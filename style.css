@@ -4,7 +4,6 @@ Styling for the webpage!
 
 body {
   background-color: #7FDBFF;
-  background-image: radial-gradient(lightblue, blue);
   font-family: Calibri;
 }
 .guess-txt-field {
