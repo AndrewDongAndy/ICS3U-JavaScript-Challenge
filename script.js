@@ -1,5 +1,7 @@
 /*
 The main container for all methods called by HTML events.
+
+Commented using JSDoc.
 */
 
 
@@ -15,26 +17,51 @@ const MAX_INCORRECT = 6;    // number of incorrect guesses allowed
 const ID_ENTER = 13;        // character code of enter key
 const ID_A = 65;            // ASCII id for the character 'A'
 
-// Returns whether or not the given character is alphabetic.
+/**
+ * Returns whether or not the given character is alphabetic.
+ *
+ * @param {char} c the character to check
+ * @return {boolean} whether the given character is alphabetic
+ */
 function isAlpha(c) {
   return c.toLowerCase() != c.toUpperCase();
 }
 
-// Returns a random integer in the range [a, b].
-// Used to select a random answer for a regular game.
+/**
+ * Returns a random integer in the range [a, b].
+ * Used to select a random word for a regular game.
+ *
+ * @param {number} a the lower bound of the range
+ * @param {number} b the upper bound of the range
+ * @return {?number} a random integer between a and b, inclusive
+ */
 function randInt(a, b) {
+  // NOTE: above, ?number means returns number OR null
+  if (a > b) {
+    console.error(`invalid arguments: randInt(${a}, ${b})`);
+    return null;
+  }
   return a + Math.floor(Math.random() * (b - a + 1));
 }
 
-// Update the number of incorrect guesses allowed shown
-// in the "How to play" section of the HTML
+
+/**
+ * Updates the number of incorrect guesses before losing.
+ * Shown in the "How to play" section of the webpage.
+ */
 function updateLiIncorrectGuesses() {
   liIncorrectGuesses.innerHTML = 'Once you get ' + MAX_INCORRECT +
       ' incorrect guesses, you lose!';
 }
 
-// Returns a normalized string (all uppercase with single spaces
-// between words), leading or trailing spaces removed
+
+/**
+ * Returns a normalized string: all uppercase with single spaces
+ * between words and leading or trailing spaces removed.
+ *
+ * @param {string} s string to normalize
+ * @return {string} normalized string
+ */
 function normalized(s) {
   s = s.trim().toUpperCase();
   let res = '';
@@ -68,12 +95,15 @@ var curState;           // current state of the game
 
 // ----------UTILITY FUNCTIONS----------
 
-// Sets the answer to the current game and its length.
-// answer should only contain alphabetic characters
-// (case insensitive)
-// NOTE: ABSOLUTELY CANNOT CONTAIN UNDERSCORES!!!
+
+/**
+ * Sets the answer of the current game with all of the helper
+ * values: len, charGuessed, charLocations, and curState.
+ * ans is assumed to be valid and normalized.
+ *
+ * @param {string} ans the string to set as the answer
+ */
 function setAnswer(ans) {
-  // assuming ans is normalized
   answer = ans;
   len = answer.length;
   charGuessed = new Array(26);
@@ -98,13 +128,20 @@ function setAnswer(ans) {
   }
 }
 
-// Sets a random answer for a new game.
+/**
+ * Sets a random answer for a new game.
+ */
 function setRandomAnswer() {
   setAnswer(answers[randInt(0, answers.length - 1)]);
 }
 
-// Returns whether a string is a valid answer string:
-// each character must be alphabetic or a space.
+/**
+ * Returns whether a string is a valid answer string. In a valid
+ * answer string, each character must be alphabetic or a space.
+ *
+ * @param {string} s the string to validate
+ * @return {boolean} whether the string is a valid answer string
+ */
 function isValidAnswer(s) {
   // must be between 1 and MAX_ANS_LEN characters, inclusive
   if (s.length == 0 || s.length > MAX_ANS_LEN) {
@@ -121,7 +158,11 @@ function isValidAnswer(s) {
   return true;
 }
 
-// Returns current state of game (for display only)
+/**
+ * Returns current state of game (for display only)
+ *
+ * @return {string} the game state for display
+ */
 function getCurState() {
   let s = '';
   for (let i = 0; i < len; i++) {
@@ -137,10 +178,13 @@ function getCurState() {
   return s;
 }
 
-// Returns whether user has won the game; the user wins
-// if and only if the current state does not contain any
-// underscores
-function userHasWon() {
+/**
+ * Returns whether user has won the game: the user has won if and
+ * only if the current game state does not contain any underscores.
+ *
+ * @return {boolean} whether user has won
+ */
+function hasWon() {
   for (let i = 0; i < len; i++) {
     if (curState[i] == '_') {
       return false;
@@ -149,10 +193,14 @@ function userHasWon() {
   return true;
 }
 
-// Returns whether user has lost the game; the user loses
-// if and only if they have reached the maximum number of
-// incorrect guesses allowed
-function userHasLost() {
+/**
+ * Returns whether user has lost the game: the user has lost if and
+ * only of they have reached the maximum number of incorrect
+ * guesses allowed.
+ *
+ * @return {boolean} whether user has lost
+ */
+function hasLost() {
   return incorrect == MAX_INCORRECT;
 }
 
@@ -161,9 +209,12 @@ function userHasLost() {
 
 // ----------GAME INITIALIZATION----------
 
-// Loads all valid answers from the makeshift text file "word_list.js"
-// into the answers array. Normalizes the valid answers and eliminates
-// the invalid answers.
+
+/**
+ * Loads all valid answers from the makeshift text file "word_list.js"
+ * into the answers array. Normalizes the valid answers and eliminates
+ * the invalid answers.
+ */
 function initAnswers() {
   let tmp = word_list.split('\n'); // lines of makeshift text file
   answers = [];
@@ -184,7 +235,9 @@ function initAnswers() {
   }
 }
 
-// Shows the game elements in preparation for the start of a new round.
+/**
+ * Prepares the game elements for a new round; displays and clears values.
+ */
 function initGameElements() {
   endAnimation();
   updateState();
@@ -198,7 +251,9 @@ function initGameElements() {
   txtGuess.focus();
 }
 
-// Called when user clicks btnNewGame
+/**
+ * Called when user clicks btnNewGame.
+ */
 function newGame() {
   guesses = 0;
   incorrect = 0;
@@ -206,7 +261,9 @@ function newGame() {
   initGameElements();
 }
 
-// Called when user clicks btnCustomGame
+/**
+ * Called when user clicks btnCustomGame.
+ */
 function customGame() {
   guesses = 0;
   incorrect = 0;
@@ -231,9 +288,12 @@ function customGame() {
 
 // ----------USER INTERACTION----------
 
-// Updates the state of the game displayed to the user.
-// This includes letters/underscores, guesses used,
-// incorrect guesses, and whether user has won.
+
+/**
+ * Updates the state of the game displayed to the user. This includes
+ * leltters/underscores, guesses used, and incorrect guesses. Also
+ * handles if user has won or lost.
+ */
 function updateState() {
   preCurState.innerHTML = getCurState() + '<br><br>';
   preCurState.innerHTML += `Incorrect guesses: ${incorrect}<br>`;
@@ -251,11 +311,11 @@ function updateState() {
     preCurState.innerHTML += ' none';
   }
   // handle game end
-  if (userHasWon()) {
+  if (hasWon()) {
     preCurState.innerHTML += '<br><br>Congratulations! You won!';
     divGuessing.hidden = true;
     startWinAnimation();
-  } else if (userHasLost()) {
+  } else if (hasLost()) {
     preCurState.innerHTML += '<br><br>You lost!';
     preCurState.innerHTML += `<br>The answer was ${answer}.`;
     divGuessing.hidden = true;
@@ -270,21 +330,32 @@ function updateState() {
 
 // ----------EVENT HANDLING----------
 
-// Checks for when user presses enter to guess a character.
+/**
+ * Checks for when user presses enter to guess a character.
+ *
+ * @param {object} event the event of pressing a key
+ */
 function txtGuessKeyPressed(event) {
   if (event.charCode == ID_ENTER) {
     userGuessed();
   }
 }
 
+/**
+ * Checks for when user presses enter to solve the puzzle.
+ *
+ * @param {object} event the event of pressing a key
+ */
 function txtSolveKeyPressed(event) {
   if (event.charCode == ID_ENTER) {
     userSolved();
   }
 }
 
-// Called by txtGuessKeyPressed to guess a character.
-// Handles bad input accordingly.
+/**
+ * Called by txtGuessKeyPressed to guess a character.
+ * Handles bad input accordingly.
+ */
 function userGuessed() {
   // get guess and immediately clear and focus text field
   let c = txtGuess.value.toUpperCase();
@@ -316,6 +387,10 @@ function userGuessed() {
   updateState();
 }
 
+/**
+ * Called by txtSolveKeyPressed to solve the puzzle.
+ * Handles bad input accordingly.
+ */
 function userSolved() {
   let s = normalized(txtSolve.value);
   txtSolve.value = '';

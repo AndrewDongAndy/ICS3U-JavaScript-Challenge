@@ -11,7 +11,13 @@ var ctx = canvHangman.getContext('2d');
 
 // ----------UTILITY FUNCTIONS----------
 
-// Equivalent to the processing.js line().
+/**
+ * Equivalent to the processing.js line().
+ * @param {number} x1 x-coordinate of first endpoint
+ * @param {number} y1 y-coordinate of first endpoint
+ * @param {number} x2 x-coordinate of second endpoint
+ * @param {number} y2 y-coordinate of second endpoint
+ */
 function line(x1, y1, x2, y2) {
   ctx.beginPath();
   ctx.moveTo(x1, y1);
@@ -19,7 +25,13 @@ function line(x1, y1, x2, y2) {
   ctx.stroke();
 }
 
-// Equivalent to the processing.js ellipse(), radius mode.
+/**
+ * Equivalent to the processing.js ellipse(), radius mode.
+ * @param {number} x x-coordinate of centre of ellipse
+ * @param {number} y y-coordinate of centre of ellipse
+ * @param {number} radiusX horizontal radius
+ * @param {number} radiusY vertical radius
+ */
 function ellipse(x, y, radiusX, radiusY) {
   ctx.beginPath();
   ctx.moveTo(x + radiusX, y);
@@ -50,16 +62,25 @@ let bodyLength = 70;
 let wingSpan = 60;
 let eyeRadius = 2.5;
 
+/**
+ * Updates the hook based on number of incorrect guesses.
+ * @param {number} incorrect number of incorrect guesses
+ */
 function updateHook(incorrect) {
   resetHook();
   drawPerson(personX, hookTipY, incorrect);
 }
 
+/**
+ * Clears the canv-hangman canvas completely.
+ */
 function clearCanvas() {
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
 }
 
-// Draws an empty hook in the canv-hangman canvas.
+/**
+ * Draws an empty hook in the canv-hangman canvas.
+ */
 function resetHook() {
   clearCanvas();
   line(baseLeftX, baseY, baseRightX, baseY); // base
@@ -68,7 +89,12 @@ function resetHook() {
   line(personX, topY, personX, hookTipY); // hook down
 }
 
-// Given the location of the top of the head, draw a person.
+/**
+ * Draws a person given the location of the top of the head.
+ * @param {number} x x-coordinate of top of head
+ * @param {number} y y-coordinate of top of head
+ * @param {number} stage how much of the person to draw
+ */
 function drawPerson(x, y, stage) {
   let headCentreY = y + headRadius;
   let bodyTopY = headCentreY + headRadius;
@@ -129,6 +155,10 @@ var animationY;         // y-coordinate to display ongoing animation
 var deltaX;             // change in x for each animation frame
 var cancelId = null;    // to cancel the ongoing animation
 
+
+/**
+ * Starts the win animation.
+ */
 function startWinAnimation() {
   curX = LEFT_BOUND;
   animationY = 30;
@@ -136,6 +166,9 @@ function startWinAnimation() {
   animatePerson();
 }
 
+/**
+ * Starts the lose animation.
+ */
 function startLoseAnimation() {
   curX = LEFT_BOUND;
   animationY = HEIGHT - 5 / 2 * headRadius;
@@ -143,6 +176,9 @@ function startLoseAnimation() {
   animatePerson();
 }
 
+/**
+ * Stops the ongoing animation, if any.
+ */
 function endAnimation() {
   if (cancelId == null) {
     return; // animation was not playing
@@ -151,8 +187,10 @@ function endAnimation() {
   cancelId = null;
 }
 
-// Bounces a person back and forth between the x-values
-// LEFT_BOUND and RIGHT_BOUND at the given y-coordinate.
+/**
+ * Bounces a person back and forth between the x-values
+ * LEFT_BOUND and RIGHT_BOUND at the animationY y-coordinate.
+ */
 function animatePerson() {
   clearCanvas();
   drawPerson(curX, animationY, PERSON_STAGES);
