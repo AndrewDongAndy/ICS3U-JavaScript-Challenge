@@ -106,7 +106,7 @@ function drawPerson(x, y, stage) {
       // head
       ellipse(x, headCentreY, headRadius, headRadius);
     default:
-      
+
   }
 }
 
@@ -144,7 +144,9 @@ function startLoseAnimation() {
 }
 
 function endAnimation() {
-  if (cancelId == null) return;
+  if (cancelId == null) {
+    return; // animation was not playing
+  }
   cancelAnimationFrame(cancelId);
   cancelId = null;
 }
@@ -154,7 +156,9 @@ function endAnimation() {
 function animatePerson() {
   clearCanvas();
   drawPerson(curX, animationY, PERSON_STAGES);
-  if (curX > RIGHT_BOUND || curX < LEFT_BOUND) deltaX = -deltaX;
+  if (curX > RIGHT_BOUND || curX < LEFT_BOUND) {
+    deltaX = -deltaX;
+  }
   curX += deltaX;
   cancelId = requestAnimationFrame(animatePerson);
 }
