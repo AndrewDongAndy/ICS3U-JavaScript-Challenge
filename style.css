@@ -29,16 +29,24 @@ pre {
 .start-game-btn {
   background-color: #FFB49A;
   border: 1.5px solid black;
+  color: black;
   border-radius: 5px;
   font-size: 15px;
   padding: 5px 7px;
+  transition: color 0.2s;
+  transition: border 0.2s;
+  transition: background-color 0.2s;
 }
 .start-game-btn:hover {
-  background-color: #FFB49A;
+  background-color: black;
   border: 1.5px solid white;
+  color: white;
   border-radius: 5px;
   font-size: 15px;
   padding: 5px 7px;
+  transition: color 0.2s;
+  transition: border 0.2s;
+  transition: background-color 0.2s;
 }
 ul li {
   list-style-type: square;
