@@ -126,8 +126,14 @@ function isValidAnswer(s) {
 function getCurState() {
   let s = '';
   for (let i = 0; i < len; i++) {
-    s += (curState[i] == ' ' ? '  ' : curState[i]);
-    if (i != len - 1) s += ' ';
+    if (curState[i] == ' ') {
+      s += '  '; // exaggerate spaces
+    } else {
+      s += curState[i];
+    }
+    if (i != len - 1) {
+      s += ' ';
+    }
   }
   return s;
 }
@@ -137,7 +143,9 @@ function getCurState() {
 // underscores
 function userHasWon() {
   for (let i = 0; i < len; i++) {
-    if (curState[i] == '_') return false;
+    if (curState[i] == '_') {
+      return false;
+    }
   }
   return true;
 }
@@ -163,7 +171,7 @@ function initAnswers() {
       answers.push(na);
     } else {
       // invalid answer: show warning in console, and display
-      // original value (not normalized value)
+      // ORIGINAL value (not normalized value)
       console.warn(`invalid answer excluded: "${a}"`);
     }
   }
@@ -197,13 +205,15 @@ function newGame() {
 function customGame() {
   guesses = 0;
   incorrect = 0;
-  let ans = prompt('Enter an answer string; alphabetic characters only, '
-      + `maximum ${MAX_ANS_LEN} characters.`);
-  if (ans == null) return; // user cancelled the prompt
+  let ans = prompt('Enter an answer string; alphabetic characters only, ' +
+      `maximum ${MAX_ANS_LEN} characters.`);
+  if (ans == null) {
+    return; // user cancelled the prompt
+  }
   ans = normalized(ans);
   if (!isValidAnswer(ans)) {
-      alert('Sorry, that is not a valid answer string.');
-      return;
+    alert('Sorry, that is not a valid answer string.');
+    return;
   }
   // at this point, the given answer string must be valid
   setAnswer(ans);
@@ -252,15 +262,18 @@ function updateState() {
 
 // ----------EVENT HANDLING----------
 
+
+const ID_ENTER = 13; // character code of enter key is 13
+
 // Checks for when user presses enter to guess a character.
 function txtGuessKeyPressed(event) {
-  if (event.charCode == 13) { // code of enter key is 13
+  if (event.charCode == ID_ENTER) {
     userGuessed();
   }
 }
 
 function txtSolveKeyPressed(event) {
-  if (event.charCode == 13) { // code of enter key is 13
+  if (event.charCode == ID_ENTER) {
     userSolved();
   }
 }
@@ -287,9 +300,9 @@ function userGuessed() {
   guesses++;
   charGuessed[cId] = true;
   // show this character where it appears in the answer
-  charLocations[cId].forEach(function(i) {
+  for (let i of charLocations[cId]) {
     curState[i] = c;
-  });
+  }
   // if there are no locations with the given character, then
   // the guess was incorrect
   if (charLocations[cId].length == 0) {
@@ -305,7 +318,7 @@ function userSolved() {
   // validate input
   if (!isValidAnswer(s)) {
     alert('Invalid guess: the answer is alphabetic and between 1 and ' +
-        MAX_ANS_LEN + ' characters.');
+        `${MAX_ANS_LEN} characters.`);
     return;
   }
   // at this point, guess must be valid
