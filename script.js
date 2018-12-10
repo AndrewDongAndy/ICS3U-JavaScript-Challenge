@@ -107,10 +107,16 @@ function setRandomAnswer() {
 // each character must be alphabetic or a space.
 function isValidAnswer(s) {
   // must be between 1 and MAX_ANS_LEN characters, inclusive
-  if (s.length == 0 || s.length > MAX_ANS_LEN) return false;
+  if (s.length == 0 || s.length > MAX_ANS_LEN) {
+    console.warn(`invalid answer (too long): ${s}`);
+    return false;
+  }
   for (let i = 0; i < s.length; i++) {
     let c = s.charAt(i);
-    if (!isAlpha(c) && c != ' ') return false;
+    if (!isAlpha(c) && c != ' ') {
+      console.warn(`invalid answer (not alphabetic): ${s}`);
+      return false;
+    }
   }
   return true;
 }
