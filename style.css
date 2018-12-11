@@ -44,6 +44,7 @@ pre {
 .start-game-btn:active {
   background-color: white;
   color: black;
+  transition: all 0 ease;
 }
 ul li {
   list-style-type: square;
