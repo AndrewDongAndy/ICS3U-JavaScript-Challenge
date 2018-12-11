@@ -52,4 +52,23 @@ motherboard
 never gonna give you up
 Capitalization
 school bus
+sinusoidal function
+related acute angle
+diameter
+discontinued
+derive
+never drink and drive
+the sun is a deadly laser
+Hawaii
+boredom
+Spartan spirit
+inequality
+equation
+characteristics
+Ferris wheel
+octave
+diminished
+heavy textbooks
+information technology
+balanced binary search tree
 `
