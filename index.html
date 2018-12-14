@@ -24,12 +24,11 @@ Written using HTML, CSS, JS: the languages of the web.
     <h1>ICS 3U Hangman</h1>
     <h2>JavaScript Challenge Assignment</h2>
     <div id="div-link-to-code">
-      This project was made as my submission to the JavaScript Programming
-      Challenge in the course ICS 3U.
-      <br>
-      The link to my repository on GitHub for this project can be found
-      <a href="https://github.com/AndrewDongAndy/ICS3U-JavaScript-Challenge">
-        here</a>.
+      <p>This project was made as my submission to the JavaScript Programming
+        Challenge in the course ICS 3U.</p>
+      <p>The link to my repository on GitHub for this project can be found
+        <a href="https://github.com/AndrewDongAndy/ICS3U-JavaScript-Challenge">
+          here</a>.</p>
     </div>
     <!-- Telling user how to play -->
     <div id="div-how-to-play">
@@ -45,7 +44,7 @@ Written using HTML, CSS, JS: the languages of the web.
           <ul>
             <li>press enter to submit</li>
             <li>if your guess is not in the answer, you receive an incorrect
-                guess!</li>
+              guess!</li>
           </ul>
         </li>
         <li>Or, try to guess the whole phrase at once!</li>
@@ -56,19 +55,19 @@ Written using HTML, CSS, JS: the languages of the web.
     <!-- Elements used for starting a new game -->
     <div id="div-start-game">
       <button class="start-game-btn" id="btn-new-game"
-          onclick="newGame()">New game</button>
+              onclick="newGame()">New game</button>
       <button class="start-game-btn" id="btn-custom-game"
-          onclick="customGame()">Custom game</button>
+              onclick="customGame()">Custom game</button>
     </div>
     <br>
     <!-- Elements used for guessing a letter -->
     <div id="div-guessing" hidden>
       Guess a letter:
       <input type="text" class="guess-txt-field" id="txt-guess" maxlength="1"
-          onkeypress="txtGuessKeyPressed(event)"/>
+             onkeypress="txtGuessKeyPressed(event)"/>
       Solve the puzzle:
       <input type="text" class="guess-txt-field" id="txt-solve"
-          onkeypress="txtSolveKeyPressed(event)"/>
+             onkeypress="txtSolveKeyPressed(event)"/>
     </div>
     <!-- Elements used to show results and game state -->
     <pre id="pre-cur-state" hidden></pre>
