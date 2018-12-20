@@ -7,7 +7,7 @@ December 21, 2018
 JavaScript Programming Challenge
 
 
-A web application to play a game of Hangman. Allows
+A web application to play a game of Hangman. Allows both
 random and custom games.
 
 Written using HTML, CSS, JS: the languages of the web.
@@ -30,18 +30,18 @@ drawing and animation.
   <body>
     <h1>ICS 3U Hangman</h1>
     <h2>JavaScript Challenge Assignment</h2>
+    
+    <!-- Information about project and link to GitHub repository -->
     <div id="div-link-to-code">
-      <p>
-        This project was made as my submission to the JavaScript Programming
+      <p>This project was made as my submission to the JavaScript Programming
         Challenge in the course ICS 3U.
       </p>
-      <p>
-        The link to my repository on GitHub for this project can be found
+      <p>The link to my repository on GitHub for this project can be found
         <a href="https://github.com/AndrewDongAndy/ICS3U-JavaScript-Challenge">
-          here
-        </a>.
+          here</a>.
       </p>
     </div>
+    
     <!-- Telling user how to play -->
     <div id="div-how-to-play">
       <h3>How to play</h3>
@@ -64,6 +64,7 @@ drawing and animation.
         <li id="li-incorrect-guesses"></li>
       </ol>
     </div>
+    
     <!-- Elements used for starting a new game -->
     <div id="div-start-game">
       <button class="start-game-btn" id="btn-new-game"
@@ -72,6 +73,7 @@ drawing and animation.
               onclick="customGame()">Custom game</button>
     </div>
     <br>
+    
     <!-- Elements used for guessing a letter -->
     <div id="div-guessing" hidden>
       Guess a letter:
@@ -81,6 +83,7 @@ drawing and animation.
       <input type="text" class="guess-txt-field" id="txt-solve"
              onkeypress="txtSolveKeyPressed(event)"/>
     </div>
+    
     <!-- Elements used to show results and game state -->
     <pre id="pre-cur-state" hidden></pre>
     <canvas id="canv-hangman" width="300" height="200" hidden></canvas>
