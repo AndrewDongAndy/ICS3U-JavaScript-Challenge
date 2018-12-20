@@ -290,7 +290,10 @@ function customGame() {
   // at this point, the given answer string must be valid
   setAnswer(ans);
   initGameElements();
-  alert(`Success! Answer set as: ${answer}`);
+  // timeout to show alert AFTER game is initialized
+  setTimeout(function() {
+    alert(`Success! Answer set as: ${answer}`);
+  }, 20);
 }
 
 // ----------END GAME INITIALIZATION----------
